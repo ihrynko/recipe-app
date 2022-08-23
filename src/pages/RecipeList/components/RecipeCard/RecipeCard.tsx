@@ -29,7 +29,7 @@ export const RecipeCard = (props: RecipeCardProps) => {
           component="img"
           height="300"
           image={recipe.imageUrl}
-          alt="Category image"
+          alt="Recipe image"
         />
         <CardHeader
           title={recipe.title}

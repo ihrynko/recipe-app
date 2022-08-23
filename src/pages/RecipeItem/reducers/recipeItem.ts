@@ -38,4 +38,4 @@ const recipeItemSlice = createSlice({
 
 export const { recipeItemResetData } = recipeItemSlice.actions;
 
-export const recipeItemReducer =  recipeItemSlice.reducer;
+export const recipeItem =  recipeItemSlice.reducer;

@@ -9,6 +9,7 @@ import Layout from './components/Layout'
 const HomePage = lazy(() => import("./pages/Home"));
 const CategoryListPage = lazy(() => import("./pages/CategoryList"));
 const RecipeListPage = lazy(() => import("./pages/RecipeList"));
+const RecipeItemPage = lazy(() => import("./pages/RecipeItem"));
 
 
 function App() {
@@ -20,13 +21,10 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
            <Route path="categories" element={<CategoryListPage />} />
-           <Route path="recipes/:categoryId" element={<RecipeListPage />} />
+          <Route path="recipes/:categoryId" element={<RecipeListPage />} />
+           <Route path="recipes/:recipeId" element={<RecipeItemPage />} />
           <Route path="*" element={<HomePage />} />
         </Route>
-          {/* <Route index element={<HomePage />} /> */}
-          {/* <Route path="books/:bookId" element={<BookItemPage />} />
-          <Route path="statistics" element={<StatisticsPage />} /> */}
-          {/* <Route path="*" element={<HomePage />} /> */}
       </Routes>
     </>
   );
