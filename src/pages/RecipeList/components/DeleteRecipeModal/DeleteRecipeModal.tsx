@@ -3,7 +3,7 @@ import { Modal } from "../../../../components/Modal/Modal";
 import { LoadingButton } from '@mui/lab';
 import { Box, Typography } from '@mui/material';
 import {recipeDeleteStateSelector} from '../../selectors/recipeList'
-
+import { StyledSpan } from './styled';
 
 type ModalDeleteRecipeProps = {
   open: boolean;
@@ -22,7 +22,7 @@ const { loading, data } = useSelector(recipeDeleteStateSelector);
       </Typography>
       <Typography mb={3} textAlign="center" variant="body1" component="p">
         Do you really want to delete{' '}
-        <span>{data.title}</span> recipe?
+        <StyledSpan>{data.title}</StyledSpan> recipe?
       </Typography>
       <Box display="flex" gap="4px" justifyContent="flex-end">
         <LoadingButton

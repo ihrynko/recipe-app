@@ -3,7 +3,7 @@ import { Modal } from "../../../../components/Modal/Modal";
 import { LoadingButton } from '@mui/lab';
 import { Box, Typography } from '@mui/material';
 import {categoryDeleteStateSelector} from '../../selectors/categoryList'
-
+import { StyledSpan } from './styled';
 
 type ModalDeleteCategoryProps = {
   open: boolean;
@@ -22,7 +22,7 @@ const { loading, data } = useSelector(categoryDeleteStateSelector);
       </Typography>
       <Typography mb={3} textAlign="center" variant="body1" component="p">
         Do you really want to delete{' '}
-        <span>{data.name}</span> category?
+        <StyledSpan>{data.name}</StyledSpan> category?
       </Typography>
       <Box display="flex" gap="4px" justifyContent="flex-end">
         <LoadingButton

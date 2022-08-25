@@ -19,9 +19,10 @@ import { RecipeCard } from './components/RecipeCard/RecipeCard';
 import * as selectors from "./selectors/recipeList";
 import Loader from '../../components/Loader';
 
-import {Grid,IconButton} from '@mui/material';
+import {Grid,IconButton, Box} from '@mui/material';
 import ReplyOutlinedIcon from '@mui/icons-material/ReplyOutlined';
-import { StyledWrapper, StyledContainer, StyledBox, StyledTypography, StyledCard } from './styled';
+import AddIcon from '@mui/icons-material/Add';
+import { StyledWrapper, StyledContainer, StyledBox, StyledTypography, StyledCard, StyledButton } from './styled';
 
 const RecipeList = () => {
   const { categoryId } = useParams();
@@ -49,6 +50,10 @@ const RecipeList = () => {
     };
   }, [dispatch, categoryId]);
 
+    const handleCreateModalOpenToggle = useCallback(() => {
+    dispatch(modalOpenToggleAction({ name: MODAL_NAME.RECIPE_CREATE }));
+  }, [dispatch]);
+
     const handleDeleteModalOpenToggle = useCallback((item: Recipe ) => {
     dispatch(deleteActions.recipeDeleteItemDataSet({ data: item }));
     dispatch(modalOpenToggleAction({ name: MODAL_NAME.RECIPE_DELETE }));
@@ -72,13 +77,18 @@ const RecipeList = () => {
           <IconButton onClick={() => navigate(-1)}>
             <ReplyOutlinedIcon />
               </IconButton>
-              {recipeList.length === 0 && <StyledTypography variant="h4" >
+              {!recipeList.length && <StyledTypography variant="h4" >
                 Create your first recipe
              </StyledTypography>} 
              {recipeList.length > 0 && <StyledTypography variant="h4" >
                {recipeList[0].category.name}
-             </StyledTypography>} 
+              </StyledTypography>} 
             </StyledBox>
+            <Box  textAlign='center'>
+            <StyledButton onClick={handleCreateModalOpenToggle}>
+        <AddIcon/> Create Recipe
+        </StyledButton>
+            </Box>
             <Grid container spacing={3}>
           <StyledWrapper>
           {recipeList.map((recipe) => {
