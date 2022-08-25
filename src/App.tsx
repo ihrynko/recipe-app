@@ -18,10 +18,10 @@ function App() {
 
     <ToastContainer limit={1} />
       <Routes>
+        <Route index element={<HomePage />} />
         <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
            <Route path="categories" element={<CategoryListPage />} />
-          <Route path="recipes/:categoryId" element={<RecipeListPage />} />
+          <Route path="categories/:categoryId" element={<RecipeListPage />} />
            <Route path="recipes/:recipeId" element={<RecipeItemPage />} />
           <Route path="*" element={<HomePage />} />
         </Route>

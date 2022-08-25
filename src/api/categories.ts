@@ -1,9 +1,17 @@
-import { Category } from "../types/pages";
+import { Category, Recipe } from "../types/pages";
 import { client } from "./client";
 
 export const getAllCategories = async () => {
   try {
     return await client.get<never, Category[]>("/categories?page=1&limit=100");
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const getAllRecipesInCategory = async (categoryId: string) => {
+  try {
+    return await client.get<never, Recipe[]>(`/categories/${categoryId}`);
   } catch (error) {
     return Promise.reject(error);
   }

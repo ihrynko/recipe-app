@@ -1,16 +1,14 @@
 
 import { Recipe } from '../../../../types/pages';
-import { Link } from 'react-router-dom';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteOutlined from '@mui/icons-material/DeleteOutlined';
 import {
   Button,
-  Card,
+  IconButton,
   CardActions,
-  CardContent,
   CardHeader,
   CardMedia,
-  Typography,
 } from '@mui/material';
+import { StyledLink, StyledCardHeader} from "./styled"
 
 type RecipeCardProps = {
   recipe: Recipe;
@@ -24,23 +22,26 @@ export const RecipeCard = (props: RecipeCardProps) => {
 
   return (
     <>
-      <Card>
         <CardMedia
           component="img"
           height="300"
           image={recipe.imageUrl}
           alt="Recipe image"
+      />
+      <CardHeader
+            action={
+            <IconButton onClick={() => onDelete(recipe)}>
+              <DeleteOutlined />
+            </IconButton>
+          }
+        title={<StyledCardHeader> {recipe.title}</StyledCardHeader>
+         }
         />
-        <CardHeader
-          title={recipe.title}
-        />
-         <Button onClick={() => onDelete(recipe)}>
-        <DeleteIcon/>
-        </Button>  
-         <Button >
-          <Link to={`/recipes/${id}`}>Find More</Link>
+      <CardActions>
+         <Button>
+          <StyledLink to={`/recipes/${id}`}>Find more</StyledLink>
         </Button>
-      </Card>
+      </CardActions>
     </>
   );
 };

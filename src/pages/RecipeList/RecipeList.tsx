@@ -1,20 +1,27 @@
 import React, { useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { Box, Typography, Button, Card } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
-import Loader from '../../components/Loader'
 import { useAppDispatch } from '../../store';
+
 import { recipeListFetchStart } from './thunks/recipeList';
 import { recipeListResetData } from './reducers/recipeList';
-import {RecipeCard} from './components/RecipeCard/RecipeCard'
-import { MODAL_NAME } from "../../store/modal/actions/modal";
-import { modalOpenToggleAction } from "../../store/modal/reducers/modal";
+
 import { deleteActions } from "./reducers/recipeListDeleteRecipe";
-import { recipeListDeleteRecipe } from './thunks/recipeListDeleteRecipe'
-import {DeleteRecipeModal} from './components/DeleteRecipeModal/DeleteRecipeModal'
-import { Recipe } from '../../types/pages/index'
+import { recipeListDeleteRecipe } from './thunks/recipeListDeleteRecipe';
+
 import { modalStateSelector } from '../../store/modal/selectors/modal';
+import { MODAL_NAME } from "../../store/modal/actions/modal";
+import { modalOpenToggleAction } from "../../store/modal/reducers/modal"
+import {DeleteRecipeModal} from './components/DeleteRecipeModal/DeleteRecipeModal'
+
+import { Recipe } from '../../types/pages/index';
+import { RecipeCard } from './components/RecipeCard/RecipeCard';
 import * as selectors from "./selectors/recipeList";
+import Loader from '../../components/Loader';
+
+import {Grid,IconButton} from '@mui/material';
+import ReplyOutlinedIcon from '@mui/icons-material/ReplyOutlined';
+import { StyledWrapper, StyledContainer, StyledBox, StyledTypography, StyledCard } from './styled';
 
 const RecipeList = () => {
   const { categoryId } = useParams();
@@ -32,6 +39,7 @@ const RecipeList = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+
   useEffect(() => {
     if (categoryId) {
       dispatch(recipeListFetchStart({ categoryId: categoryId }));
@@ -48,38 +56,49 @@ const RecipeList = () => {
 
    const handleDeleteModalClose = useCallback(() => {
     dispatch(modalOpenToggleAction({ name: MODAL_NAME.RECIPE_DELETE }));
-  }, [dispatch]);
-
-    const handleDeleteRecipe = (id: string) => {
+   }, [dispatch]);
+  
+   const handleDeleteRecipe = useCallback((id: string) => {
     dispatch(recipeListDeleteRecipe({id}));
-  };
+  }, [dispatch]);
 
   return (
     <>
       {loading && !error && <Loader />}
-      {recipeList && !loading && !error && (
+      { !loading && !error && (
         <>
-          <Button onClick={() => navigate(-1)}>
-            {/* <StyledBackIcon /> */}
-            <span>Back</span>
-                  </Button>
-                  {recipeList.map((recipe) => {
+          <StyledContainer maxWidth="lg">
+          <StyledBox>
+          <IconButton onClick={() => navigate(-1)}>
+            <ReplyOutlinedIcon />
+              </IconButton>
+              {recipeList.length === 0 && <StyledTypography variant="h4" >
+                Create your first recipe
+             </StyledTypography>} 
+             {recipeList.length > 0 && <StyledTypography variant="h4" >
+               {recipeList[0].category.name}
+             </StyledTypography>} 
+            </StyledBox>
+            <Grid container spacing={3}>
+          <StyledWrapper>
+          {recipeList.map((recipe) => {
             return (
-
-                <Card key={recipe._id}>
+            <StyledCard key={recipe._id}>
               <RecipeCard
                   recipe={recipe}
                   onDelete={handleDeleteModalOpenToggle}
                   />
-               
-                 </Card>
+            </StyledCard>
             );
           })}
+            </StyledWrapper>
+            </Grid>
+            </StyledContainer>
        <DeleteRecipeModal
         onClose={handleDeleteModalClose}
         onDelete={handleDeleteRecipe}
         open={open && name === MODAL_NAME.RECIPE_DELETE}
-      />
+              />     
         </>
       )}
       {error && !loading && <p>{error}</p>}

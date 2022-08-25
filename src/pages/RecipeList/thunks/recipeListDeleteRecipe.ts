@@ -7,27 +7,28 @@ import { deleteRecipe} from '../../../api/recipes';
 import { AppDispatch } from '../../../store';
 import { deleteActions } from '../reducers/recipeListDeleteRecipe';
 
-import { recipeListFetchStart } from './recipeList';
 
 const RECIPE_LIST_DELETE_THUNK_TYPE = 'RECIPE_LIST_DELETE_THUNK_TYPE';
 
 export const recipeListDeleteRecipe = createAsyncThunk<
   void,
   { id: string },
-  // { categoryId: string },
   { dispatch: AppDispatch }
 >(RECIPE_LIST_DELETE_THUNK_TYPE, async (data, { dispatch }) => {
   try {
     const { id } = data;
     dispatch(deleteActions.recipeDeleteInProgress());
-    await deleteRecipe(id);
+    await deleteRecipe(id) as any;
     dispatch(deleteActions.recipeDeleteSuccess());
     dispatch(modalOpenToggleAction({ name: MODAL_NAME.RECIPE_DELETE }));
     dispatch(deleteActions.recipeResetDeleteRecipeData());
-    toast.success('Recipe has been deleted successfully!');
-    // await dispatch(recipeListFetchStart({ categoryId: categoryId }));
+    refreshPage();
   } catch (error) {
     dispatch(deleteActions.recipeDeleteError({ error: error as string }));
     toast.error(error as string);
   }
 });
+
+ function refreshPage() {
+    window.location.reload();
+  }

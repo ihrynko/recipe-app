@@ -2,8 +2,9 @@ import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Input, Typography, TextField, Button } from "@mui/material";
 import { CategoryCreate } from '../../../../types/pages';
+import { Box, Typography, TextField, Button } from "@mui/material";
+import {StyledForm} from './styled'
 
 const createCategorySchema = yup.object().shape({
   name: yup.string().required("This field is required"),
@@ -31,13 +32,14 @@ export const CategoryForm = (props:CategoryFormProps ) => {
 
   return (
     <>
-      <Typography variant="h3">Create Category</Typography>
-      <form onSubmit={handleSubmit(onSave)} id={name}>
+      <Typography variant="h3" style={{ marginBottom: "15px" }}>Create category</Typography>
+      <StyledForm onSubmit={handleSubmit(onSave)} id={name}>
         <Controller
         render={({ field }) => (
-        <TextField 
+        <TextField
+        autoComplete='false'
+        placeholder='Enter name of category'      
         label="Name of category"
-        rows={10}
         {...field} />)}  
           name="name"
           control={control}
@@ -48,25 +50,11 @@ export const CategoryForm = (props:CategoryFormProps ) => {
             {errors.name.message}
           </Typography>
         )}
-        <Controller
-          render={({ field }) => (
-        <TextField 
-        label="Description"
-        rows={10}
-              {...field} />
-                  )}
-                  
-          name="description"
-          control={control}
-           defaultValue={""}
-        />
-        {errors.description && (
-          <Typography style={{ display: "block" }} color="error" >
-            {errors.description.message}
-          </Typography>
-        )}
-        <Controller
-          render={({ field }) => <TextField label="Image" {...field} />}
+          <Controller
+          render={({ field }) => <TextField
+            placeholder='Enter the link for your category image'
+            label="Image"
+            {...field} />}
           name="image"
           control={control}
           defaultValue={""}
@@ -76,7 +64,29 @@ export const CategoryForm = (props:CategoryFormProps ) => {
             {errors.image.message}
           </Typography>
         )}
-          <Button onClick={onCancel}>
+
+        <Controller
+         render={({ field }) => (
+        <TextField 
+        multiline
+        label="Description"
+        rows={4}   
+        {...field} />)}
+          name="description"
+          control={control}
+          defaultValue={""}
+        />
+        {errors.description && (
+          <Typography style={{ display: "block" }} color="error" >
+            {errors.description.message}
+          </Typography>
+        )}
+           <Box
+            display="flex"
+            gap="4px"
+            justifyContent="flex-end"
+        >
+            <Button onClick={onCancel}>
               Cancel
             </Button>
             <Button
@@ -85,7 +95,9 @@ export const CategoryForm = (props:CategoryFormProps ) => {
             >
               Submit
             </Button>
-      </form>
+          </Box>
+        
+      </StyledForm>
     </>
   );
 };

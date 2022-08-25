@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getAllRecipesInCategory } from '../../../api/recipes';
+import { getAllRecipesInCategory } from '../../../api/categories';
 import { Recipe } from '../../../types/pages';
 
 const RECIPE_LIST_FETCH_THUNK_TYPE = 'RECIPE_LIST_FETCH_THUNK_TYPE';
