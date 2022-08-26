@@ -5,6 +5,7 @@ import { categoryListReducer } from '../pages/CategoryList/reducers/categoryList
 import { createCategoryReducer } from '../pages/CategoryList/reducers/categoryListCreateCategory'
 import { deleteCategoryReducer } from '../pages/CategoryList/reducers/categoryListDeleteCategory'
 import { recipeListReducer } from '../pages/RecipeList/reducers/recipeList'
+import { createRecipeReducer } from '../pages/RecipeList/reducers/recipeListCreateRecipe'
 import { deleteRecipeReducer } from '../pages/RecipeList/reducers/recipeListDeleteRecipe'
 import {recipeItem} from '../pages/RecipeItem/reducers/recipeItem'
 import {modal} from './modal/reducers/modal'
@@ -17,6 +18,7 @@ const categoryList = combineReducers({
 
 const recipeList = combineReducers({
   recipeListReducer,
+  createRecipeReducer,
   deleteRecipeReducer,
 })
 

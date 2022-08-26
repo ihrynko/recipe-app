@@ -12,11 +12,12 @@ type ModalCreateCategoryProps = {
 };
 
 export const CreateCategoryModal = (props: ModalCreateCategoryProps) => {
-  const { open, onClose,  onSave } = props;
+  const { open, onClose, onSave } = props;
+    const { loading } = useSelector(categoryCreateStateSelector);
 
   return (
     <Modal open={open} onClose={onClose}>
-      <CategoryForm onSave={onSave} name="create" onCancel={onClose}/>
+      <CategoryForm onSave={onSave} name="create" loading={loading} onCancel={onClose}/>
     </Modal>
   );
 };

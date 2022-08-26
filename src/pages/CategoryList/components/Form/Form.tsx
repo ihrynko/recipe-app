@@ -13,13 +13,14 @@ const createCategorySchema = yup.object().shape({
 });
 
 type CategoryFormProps = {
-    name: string;
+  name: string;
+  loading: boolean;
   onSave: (data: CategoryCreate) => void;
   onCancel: () => void;
 };
 
 export const CategoryForm = (props:CategoryFormProps ) => {
-  const { onSave, name, onCancel } = props;
+  const { onSave, name, loading, onCancel } = props;
 
   const {
     control,
@@ -40,6 +41,7 @@ export const CategoryForm = (props:CategoryFormProps ) => {
         autoComplete='false'
         placeholder='Enter name of category'      
         label="Name of category"
+        disabled={loading}
         {...field} />)}  
           name="name"
           control={control}
@@ -54,6 +56,7 @@ export const CategoryForm = (props:CategoryFormProps ) => {
           render={({ field }) => <TextField
             placeholder='Enter the link for your category image'
             label="Image"
+          disabled={loading}
             {...field} />}
           name="image"
           control={control}
@@ -69,6 +72,7 @@ export const CategoryForm = (props:CategoryFormProps ) => {
          render={({ field }) => (
         <TextField 
         multiline
+        disabled={loading}
         label="Description"
         rows={4}   
         {...field} />)}
@@ -86,10 +90,13 @@ export const CategoryForm = (props:CategoryFormProps ) => {
             gap="4px"
             justifyContent="flex-end"
         >
-            <Button onClick={onCancel}>
+          <Button
+            disabled={loading}
+            onClick={onCancel}>
               Cancel
             </Button>
-            <Button
+          <Button
+            disabled={loading}
               variant="contained"
               type="submit"
             >

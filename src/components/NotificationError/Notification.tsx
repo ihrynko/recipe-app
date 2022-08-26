@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import  { ReactNode } from 'react';
 import { toast } from "react-toastify";
 
 // type NotificationProps = {

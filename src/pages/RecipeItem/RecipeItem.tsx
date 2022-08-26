@@ -11,7 +11,7 @@ import { modalStateSelector } from '../../store/modal/selectors/modal';
 import { MODAL_NAME } from "../../store/modal/actions/modal";
 import { modalOpenToggleAction } from "../../store/modal/reducers/modal"
 
-import {Button, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Typography } from  '@mui/material';
+import { Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Typography } from  '@mui/material';
 import { styled } from '@mui/material/styles';
 
 import ReplyOutlinedIcon from '@mui/icons-material/ReplyOutlined';
@@ -84,7 +84,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
             <ReplyOutlinedIcon />
               </IconButton>
       <StyledBox >
-    <Card sx={{ maxWidth:600 }} >
+    <Card sx={{ maxWidth:700 }} >
       <CardHeader
         title={recipeData.title}
       />
@@ -100,10 +100,14 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-         <StyledButton onClick={handleExpandIngredientsClick}>
+        <StyledButton
+        disabled={open && name === MODAL_NAME.RECIPE_METHOD}
+        onClick={handleExpandIngredientsClick}>
           Ingredients
         </StyledButton>
-          <StyledButton onClick={handleExpandMethodClick}>
+        <StyledButton
+        disabled={open && name === MODAL_NAME.RECIPE_INGREDIENTS}
+         onClick={handleExpandMethodClick}>
           Method
         </StyledButton>
         <ExpandMore
@@ -117,9 +121,9 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
       <Collapse in={open && name === MODAL_NAME.RECIPE_INGREDIENTS} timeout="auto" unmountOnExit>
         <CardContent>
           <ul> 
-        {recipeData.ingredients.map((ingredient) => {
+        {recipeData.ingredients.map((ingredient, index) => {
             return (
-            <li >
+            <li key={index}>
             <Typography paragraph>{ ingredient.amount} { ingredient.unit} { ingredient.ingredient}</Typography>
             </li>
             );
@@ -130,9 +134,9 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
           <Collapse in={open && name === MODAL_NAME.RECIPE_METHOD} timeout="auto" unmountOnExit>
           <CardContent>
            <ol> 
-        {recipeData.instructions.map((ingredient) => {
+        {recipeData.instructions.map((ingredient, index) => {
             return (
-            <StyledItem>
+            <StyledItem key={index}>
             <Typography paragraph>{ ingredient} </Typography>
             </StyledItem>
             );

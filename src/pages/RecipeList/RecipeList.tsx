@@ -8,13 +8,16 @@ import { recipeListResetData } from './reducers/recipeList';
 
 import { deleteActions } from "./reducers/recipeListDeleteRecipe";
 import { recipeListDeleteRecipe } from './thunks/recipeListDeleteRecipe';
+import { recipeListCreateRecipe } from './thunks/recipeListCreateRecipe'
+
 
 import { modalStateSelector } from '../../store/modal/selectors/modal';
 import { MODAL_NAME } from "../../store/modal/actions/modal";
 import { modalOpenToggleAction } from "../../store/modal/reducers/modal"
-import {DeleteRecipeModal} from './components/DeleteRecipeModal/DeleteRecipeModal'
+import { DeleteRecipeModal } from './components/DeleteRecipeModal/DeleteRecipeModal'
+import { CreateRecipeModal } from './components/CreateRecipeModal/CreateRecipeModal'
 
-import { Recipe } from '../../types/pages/index';
+import { Recipe, RecipeCreate } from '../../types/pages/index';
 import { RecipeCard } from './components/RecipeCard/RecipeCard';
 import * as selectors from "./selectors/recipeList";
 import Loader from '../../components/Loader';
@@ -49,6 +52,11 @@ const RecipeList = () => {
       dispatch(recipeListResetData());
     };
   }, [dispatch, categoryId]);
+
+   const handleCreateRecipe = useCallback((values: RecipeCreate) => {
+     dispatch(recipeListCreateRecipe({ recipeData: values }));
+  }, [dispatch])
+
 
     const handleCreateModalOpenToggle = useCallback(() => {
     dispatch(modalOpenToggleAction({ name: MODAL_NAME.RECIPE_CREATE }));
@@ -103,7 +111,12 @@ const RecipeList = () => {
           })}
             </StyledWrapper>
             </Grid>
-            </StyledContainer>
+          </StyledContainer>
+        <CreateRecipeModal
+        onClose={handleCreateModalOpenToggle}
+        onSave={handleCreateRecipe}
+        open={open && name === MODAL_NAME.RECIPE_CREATE}
+      />
        <DeleteRecipeModal
         onClose={handleDeleteModalClose}
         onDelete={handleDeleteRecipe}

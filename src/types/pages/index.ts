@@ -36,12 +36,12 @@ export type Recipe = {
     imageUrl: string;
     timeInMins: number;
     category: Category;
-    // user?: TUser;
     createdAt?: Date;
     updatedAt?: Date;
     ingredients: Array<Ingredients>;
     instructions: Array<string>;
 };
+
 
 export type Ingredients = {
     ingredient: string;
@@ -49,8 +49,26 @@ export type Ingredients = {
     unit: string;
 };
 
+
+
 export type RecipeListFetchState = {
   data: Recipe[];
+  error: string | null;
+  loading: boolean;
+};
+
+export type RecipeCreate = {
+    title: string;
+    description: string;
+    imageUrl: string;
+    timeInMins: number;
+    category: Category;
+    ingredients: Array<Ingredients>;
+    instructions: Array<string>;
+};
+
+export type RecipeCreateState = {
+  data: Recipe | Record<string, never>;
   error: string | null;
   loading: boolean;
 };
