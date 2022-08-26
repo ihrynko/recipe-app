@@ -1,7 +1,10 @@
-import { PayloadAction } from '@reduxjs/toolkit';
-import { Category, CategoryListFetchState } from '../../../types/pages';
+import { PayloadAction } from "@reduxjs/toolkit";
+import { Category, CategoryListFetchState } from "../../../types/pages";
+import { toast } from "react-toastify";
 
-export const categoryListFetchInProgressAction = (state: CategoryListFetchState) => {
+export const categoryListFetchInProgressAction = (
+  state: CategoryListFetchState
+) => {
   state.loading = true;
   state.error = null;
 };

@@ -25,13 +25,13 @@ import { Grid, IconButton, Box } from "@mui/material";
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddIcon from "@mui/icons-material/Add";
 import {
-  StyledWrapper,
   StyledContainer,
   StyledBox,
   StyledTypography,
   StyledCard,
   StyledButton,
 } from "./styled";
+import { toast } from "react-toastify";
 
 const RecipeList = () => {
   const { categoryId } = useParams();
@@ -55,6 +55,15 @@ const RecipeList = () => {
       dispatch(recipeListResetData());
     };
   }, [dispatch, categoryId]);
+
+  useEffect(() => {
+    if (error && !loading) {
+      toast.error("Error! Bad request!", {
+        autoClose: 3000,
+      });
+      toast.clearWaitingQueue();
+    }
+  }, [error, loading]);
 
   const handleCreateRecipe = useCallback(
     (values: RecipeCreate) => {
@@ -83,16 +92,9 @@ const RecipeList = () => {
     [dispatch]
   );
 
-  if (error) {
-    return <p>{error}</p>;
-  }
-
-  if (loading && !error) {
-    return <Loader />;
-  }
-
   return (
     <>
+      {loading && !recipeList && !error && <Loader />}
       <StyledContainer maxWidth="lg">
         <StyledBox>
           <IconButton onClick={() => navigate(-1)}>
@@ -114,7 +116,7 @@ const RecipeList = () => {
             <AddIcon /> Create Recipe
           </StyledButton>
         </Box>
-        <Grid container xs={12} spacing={2}>
+        <Grid container item xs={12} spacing={2}>
           {recipeList.map((recipe) => {
             return (
               <Grid
@@ -124,6 +126,7 @@ const RecipeList = () => {
                 xs={12}
                 md={6}
                 lg={4}
+                key={recipe._id}
               >
                 <StyledCard key={recipe._id}>
                   <RecipeCard

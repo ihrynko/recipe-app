@@ -17,7 +17,6 @@ export const getAllRecipesInCategory = async (categoryId: string) => {
   }
 };
 
-
 export const deleteCategory = async (id: string) => {
   try {
     return await client.delete(`/categories/${id}`);
@@ -26,7 +25,7 @@ export const deleteCategory = async (id: string) => {
   }
 };
 
-export const createCategory= async (data: Partial<Category>) => {
+export const createCategory = async (data: Partial<Category>) => {
   try {
     return await client.post<never, Category>("/categories", { ...data });
   } catch (error) {

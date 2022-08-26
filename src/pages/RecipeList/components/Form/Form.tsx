@@ -158,7 +158,7 @@ export const RecipeForm = (props: RecipeFormProps) => {
           control={control}
         />
 
-        <GroupFields isError={errors?.ingredients?.message}>
+        <GroupFields>
           {fields.map((field, index) => {
             return (
               <Grid container key={field.id} spacing={1}>
@@ -316,5 +316,4 @@ const GroupFields = styled.div<GroupFieldsProps>`
   border-radius: 3px;
   border-width: 1px;
   border-style: solid;
-  border-color: ${(props) => (props?.isError ? "red" : "blue")};
 `;

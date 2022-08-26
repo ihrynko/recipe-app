@@ -1,5 +1,5 @@
-import { PayloadAction } from '@reduxjs/toolkit';
-import { RecipeCreateState } from '../../../types/pages';
+import { PayloadAction } from "@reduxjs/toolkit";
+import { RecipeCreateState } from "../../../types/pages";
 
 export const recipeCreateInProgressAction = (state: RecipeCreateState) => {
   state.loading = true;
