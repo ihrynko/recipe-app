@@ -1,4 +1,4 @@
-import { Recipe } from "../types/pages";
+import { Recipe, RecipeCreate } from "../types/pages";
 import { client } from "./client";
 
 
@@ -19,9 +19,9 @@ export const deleteRecipe = async (id: string) => {
   }
 };
 
-export const createRecipe= async (data: Partial<Recipe>) => {
+export const createRecipe= async (data: RecipeCreate) => {
   try {
-    return await client.post<never, Recipe>("/recipes", { ...data });
+    return await client.post<never, RecipeCreate>("/recipes", { ...data });
   } catch (error) {
     return Promise.reject(error);
   }

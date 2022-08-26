@@ -17,10 +17,13 @@ export const recipeListCreateRecipe = createAsyncThunk<
 >(RECIPE_LIST_CREATE_THUNK_TYPE, async (data, { dispatch }) => {
   try {
     const { recipeData } = data;
+
     dispatch(createActions.recipeCreateInProgress());
     await createRecipe(recipeData);
+
     dispatch(createActions.recipeCreateSuccess());
     dispatch(modalOpenToggleAction({ name: MODAL_NAME.RECIPE_CREATE }));
+    
     refreshPage();
   } catch (error) {
     dispatch(createActions.recipeCreateError({ error: error as string }));

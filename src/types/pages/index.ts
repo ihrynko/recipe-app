@@ -62,10 +62,15 @@ export type RecipeCreate = {
     description: string;
     imageUrl: string;
     timeInMins: number;
-    category: Category;
-    ingredients: Array<Ingredients>;
-    instructions: Array<string>;
+    category: Category['_id'];
+    ingredients: Ingredients[];
+    instructions: Instruction[];
 };
+
+export type Instruction = {
+  order?: number;
+  value: string;
+}
 
 export type RecipeCreateState = {
   data: Recipe | Record<string, never>;
