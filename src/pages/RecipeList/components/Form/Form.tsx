@@ -19,18 +19,28 @@ const createRecipeSchema = yup.object().shape({
   title: yup.string().required("This field is required"),
   description: yup.string().required("This field is required"),
   imageUrl: yup.string().required("This field is required"),
-  timeInMins: yup.number().required("This field is required"),
+  timeInMins: yup
+    .number()
+    .typeError("Value must be a positive number")
+    .positive("Value must be a positive number")
+    .integer("Value must be an integer")
+    .required("This field is required"),
   category: yup.string().required("This field is required"),
   ingredients: yup
     .array()
     .of(
       yup.object().shape({
         ingredient: yup.string().required("required"),
-        amount: yup.number().required("required"),
+        amount: yup
+          .number()
+          .typeError("Value must be a positive number")
+          .positive("Value must be a positive number")
+          .integer("Value must be an integer")
+          .required("This field is required"),
         unit: yup.string().required("required"),
       })
     )
-    .min(2, "The error message if length === 0 | 1"),
+    .min(1, "Must be minimum 1 ingredient"),
   instructions: yup
     .array()
     .of(
@@ -38,7 +48,7 @@ const createRecipeSchema = yup.object().shape({
         value: yup.string().required("required"),
       })
     )
-    .min(2, "The error message if length === 0 | 1"),
+    .min(1, "Must be minimum 1 step"),
 });
 
 type RecipeFormProps = {
@@ -61,7 +71,11 @@ export const RecipeForm = (props: RecipeFormProps) => {
     mode: "all",
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const {
+    fields: ingredientsFields,
+    append,
+    remove,
+  } = useFieldArray({
     name: "ingredients",
     control,
   });
@@ -148,6 +162,7 @@ export const RecipeForm = (props: RecipeFormProps) => {
           )}
           name="timeInMins"
           control={control}
+          defaultValue={0}
         />
         <Controller
           render={({ field }) => {
@@ -159,19 +174,21 @@ export const RecipeForm = (props: RecipeFormProps) => {
         />
 
         <GroupFields>
-          {fields.map((field, index) => {
+          {ingredientsFields.map((field, index) => {
             return (
               <Grid container key={field.id} spacing={1}>
                 <Grid item>
                   <Controller
-                    render={({ field, fieldState }) => {
+                    render={({ field }) => {
                       return (
                         <TextField
                           placeholder={"Name"}
                           label={"Name"}
-                          // error={!!errors["title"]}
+                          // error={!!errors["ingredients.ingredient"]}
                           // helperText={
-                          //   errors["title"] ? errors["title"].message : ""
+                          //   errors["ingredients.ingredient"]
+                          //     ? errors["ingredients.ingredient"].message
+                          //     : ""
                           // }
                           {...field}
                         />
@@ -185,7 +202,7 @@ export const RecipeForm = (props: RecipeFormProps) => {
                 </Grid>
                 <Grid item>
                   <Controller
-                    render={({ field, fieldState }) => {
+                    render={({ field }) => {
                       return (
                         <TextField
                           placeholder={"Amount"}
@@ -203,7 +220,7 @@ export const RecipeForm = (props: RecipeFormProps) => {
                 </Grid>
                 <Grid item>
                   <Controller
-                    render={({ field, fieldState }) => {
+                    render={({ field }) => {
                       return (
                         <TextField
                           placeholder={"Unit"}
@@ -217,7 +234,7 @@ export const RecipeForm = (props: RecipeFormProps) => {
                     control={control}
                   />
                 </Grid>
-                <Button type="button" onClick={() => instructionRemove(index)}>
+                <Button type="button" onClick={() => remove(index)}>
                   &#8722;
                 </Button>
               </Grid>
@@ -231,18 +248,12 @@ export const RecipeForm = (props: RecipeFormProps) => {
           </Button>
         </GroupFields>
 
-        {errors?.instructions && (
-          <Typography style={{ display: "block" }} color="error">
-            {errors?.instructions?.message}
-          </Typography>
-        )}
-
         {instructionFields.map((item, index) => {
           return (
             <Grid container key={item.id}>
               <Grid item>
                 <Controller
-                  render={({ field, fieldState }) => {
+                  render={({ field }) => {
                     return (
                       <TextField
                         placeholder={`Step ${index + 1}`}
@@ -259,30 +270,15 @@ export const RecipeForm = (props: RecipeFormProps) => {
                 />
               </Grid>
 
-              <Button type="button" onClick={() => remove(index)}>
+              <Button type="button" onClick={() => instructionRemove(index)}>
                 &#8722;
               </Button>
             </Grid>
           );
         })}
         <Button type="button" onClick={() => instructionAppend({ value: "" })}>
-          Add ingredient
+          Add step
         </Button>
-
-        {/* <Controller
-          render={({ field }) => <TextField
-            label="Method"
-            // disabled 
-            {...field} />}
-          name="instructions"
-          control={control}
-          defaultValue={['']}
-        /> */}
-        {errors.instructions && (
-          <Typography style={{ display: "block" }} color="error">
-            {errors.instructions.message}
-          </Typography>
-        )}
         <Box display="flex" gap="4px" justifyContent="flex-end">
           <Button disabled={loading} onClick={onCancel}>
             Cancel
@@ -295,17 +291,6 @@ export const RecipeForm = (props: RecipeFormProps) => {
     </>
   );
 };
-
-const Row = styled.div`
-  display: flex;
-  align-items: center;
-  & > * {
-    margin-right: 20px !important;
-  }
-  .ui.button {
-    margin: 10px 0 0 8px;
-  }
-`;
 
 type GroupFieldsProps = {
   isError?: boolean;

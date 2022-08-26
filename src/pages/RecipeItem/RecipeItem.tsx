@@ -163,10 +163,10 @@ const RecipeItem = () => {
               >
                 <CardContent>
                   <ol>
-                    {recipeData.instructions.map((ingredient, index) => {
+                    {recipeData.instructions.map((step, index) => {
                       return (
                         <StyledItem key={index}>
-                          <Typography paragraph>{ingredient} </Typography>
+                          <Typography paragraph>{step.value} </Typography>
                         </StyledItem>
                       );
                     })}

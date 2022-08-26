@@ -30,26 +30,23 @@ export type CategoryDeleteState = {
 };
 
 export type Recipe = {
-   _id: string;
-    title: string;
-    description: string;
-    imageUrl: string;
-    timeInMins: number;
-    category: Category;
-    createdAt?: Date;
-    updatedAt?: Date;
-    ingredients: Array<Ingredients>;
-    instructions: Array<string>;
+  _id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  timeInMins: number;
+  category: Category;
+  createdAt?: Date;
+  updatedAt?: Date;
+  ingredients: Ingredients[];
+  instructions: Instruction[];
 };
-
 
 export type Ingredients = {
-    ingredient: string;
-    amount: number;
-    unit: string;
+  ingredient: string;
+  amount: number;
+  unit: string;
 };
-
-
 
 export type RecipeListFetchState = {
   data: Recipe[];
@@ -58,19 +55,19 @@ export type RecipeListFetchState = {
 };
 
 export type RecipeCreate = {
-    title: string;
-    description: string;
-    imageUrl: string;
-    timeInMins: number;
-    category: Category['_id'];
-    ingredients: Ingredients[];
-    instructions: Instruction[];
+  title: string;
+  description: string;
+  imageUrl: string;
+  timeInMins: number;
+  category: Category["_id"];
+  ingredients: Ingredients[];
+  instructions: Instruction[];
 };
 
 export type Instruction = {
   order?: number;
   value: string;
-}
+};
 
 export type RecipeCreateState = {
   data: Recipe | Record<string, never>;
@@ -89,4 +86,3 @@ export type RecipeItemState = {
   error: string | null;
   loading: boolean;
 };
-
