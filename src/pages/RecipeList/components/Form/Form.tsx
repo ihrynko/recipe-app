@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { RecipeCreate, Category } from '../../../../types/pages';
 import { Box, Typography, TextField, Button } from "@mui/material";
+import {  useParams } from 'react-router-dom';
 import { StyledForm } from './styled'
 import styled from "styled-components";
 
@@ -31,6 +32,7 @@ type RecipeFormProps = {
 
 export const RecipeForm = (props:RecipeFormProps ) => {
   const { onSave, name, loading, onCancel } = props;
+   const { categoryId } = useParams();
     const {
       control,
     handleSubmit,
@@ -49,7 +51,7 @@ export const RecipeForm = (props:RecipeFormProps ) => {
       <Typography variant="h3" style={{ marginBottom: "15px" }}>Create recipe</Typography>
       <StyledForm onSubmit={handleSubmit(onSave)} id={name}>
         <Controller
-        render={({ field }) => (
+          render={({ field }) => (
         <TextField
         placeholder='Enter name of recipe'      
         label="Name of recipe"

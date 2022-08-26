@@ -75,10 +75,19 @@ const RecipeList = () => {
     dispatch(recipeListDeleteRecipe({id}));
   }, [dispatch]);
 
+  if (error)  {
+    return(
+      <p>{error}</p>
+    )
+  }
+
+  if (loading && !error) {
+    return (
+      <Loader />
+    )
+  }
+
   return (
-    <>
-      {loading && !error && <Loader />}
-      { !loading && !error && (
         <>
           <StyledContainer maxWidth="lg">
           <StyledBox>
@@ -122,9 +131,6 @@ const RecipeList = () => {
         onDelete={handleDeleteRecipe}
         open={open && name === MODAL_NAME.RECIPE_DELETE}
               />     
-        </>
-      )}
-      {error && !loading && <p>{error}</p>}
     </>
   );
 };
