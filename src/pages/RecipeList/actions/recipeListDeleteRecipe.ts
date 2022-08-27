@@ -1,5 +1,5 @@
-import { PayloadAction } from '@reduxjs/toolkit';
-import { RecipeDeleteState, Recipe } from '../../../types/pages';
+import { PayloadAction } from "@reduxjs/toolkit";
+import { RecipeDeleteState, Recipe } from "../../../types/pages";
 
 export const recipeDeleteItemDataSetAction = (
   state: RecipeDeleteState,
@@ -16,12 +16,12 @@ export const recipeDeleteSuccessAction = (state: RecipeDeleteState) => {
   state.loading = false;
 };
 
-export const recipeDeleteErrorAction = (state: RecipeDeleteState, action: PayloadAction<{ error: string }>
+export const recipeDeleteErrorAction = (
+  state: RecipeDeleteState,
+  action: PayloadAction<{ error: string }>
 ) => {
   const { error } = action.payload;
 
   state.loading = false;
   state.error = error;
-}
-
-
+};

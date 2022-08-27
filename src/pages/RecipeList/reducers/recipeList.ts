@@ -1,22 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { recipeListFetchStart } from '../thunks/recipeList';
+import { createSlice } from "@reduxjs/toolkit";
+import { recipeListFetchStart } from "../thunks/recipeList";
 
-import * as actions from '../actions/recipeList';
-import {  RecipeListFetchState } from '../../../types/pages';
-
+import * as actions from "../actions/recipeList";
+import { RecipeListFetchState } from "../../../types/pages";
 
 const initialState: RecipeListFetchState = {
+  refreshIndex: 1,
   data: [],
   error: null,
   loading: true,
 };
 
-const RECIPE_LIST_FETCH_SLICE_NAME = 'RECIPE_LIST_FETCH_SLICE';
+const RECIPE_LIST_FETCH_SLICE_NAME = "RECIPE_LIST_FETCH_SLICE";
 
 const recipeListSlice = createSlice({
   name: RECIPE_LIST_FETCH_SLICE_NAME,
   initialState,
   reducers: {
+    recipeListFetchUpdate: actions.recipeListFetchUpdateAction,
     recipeListResetData: () => initialState,
   },
   extraReducers: (builder) => {
@@ -36,6 +37,7 @@ const recipeListSlice = createSlice({
   },
 });
 
-export const { recipeListResetData } = recipeListSlice.actions;
+export const { recipeListResetData, recipeListFetchUpdate } =
+  recipeListSlice.actions;
 
 export const recipeListReducer = recipeListSlice.reducer;

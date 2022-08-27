@@ -1,9 +1,8 @@
 import { useSelector } from "react-redux";
 import { recipeCreateStateSelector } from "../../selectors/recipeList";
-import { Modal } from "../../../../components/Modal/Modal";
+import { Modal } from "./Modal/Modal";
 import { RecipeForm } from "../Form/Form";
-import { RecipeCreate } from '../../../../types/pages';
-
+import { RecipeCreate } from "../../../../types/pages";
 
 type ModalCreateCategoryProps = {
   open: boolean;
@@ -13,13 +12,16 @@ type ModalCreateCategoryProps = {
 
 export const CreateRecipeModal = (props: ModalCreateCategoryProps) => {
   const { open, onClose, onSave } = props;
-    const { loading } = useSelector(recipeCreateStateSelector);
+  const { loading } = useSelector(recipeCreateStateSelector);
 
   return (
     <Modal open={open} onClose={onClose}>
-      <RecipeForm onSave={onSave} name="create" loading={loading} onCancel={onClose}/>
+      <RecipeForm
+        onSave={onSave}
+        name="create"
+        loading={loading}
+        onCancel={onClose}
+      />
     </Modal>
   );
 };
-
-

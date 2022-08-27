@@ -1,43 +1,43 @@
 import React from "react";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useParams } from "react-router-dom";
 import * as yup from "yup";
-import { RecipeCreate, Category } from "../../../../types/pages";
+import { RecipeCreate } from "../../../../types/pages";
 import {
   Box,
   Typography,
   TextField,
   Button,
-  Hidden,
+  IconButton,
   Grid,
 } from "@mui/material";
-import { useParams } from "react-router-dom";
+import DeleteOutlined from "@mui/icons-material/DeleteOutlined";
 import { StyledForm } from "./styled";
-import styled from "styled-components";
 
 const createRecipeSchema = yup.object().shape({
-  title: yup.string().required("This field is required"),
-  description: yup.string().required("This field is required"),
-  imageUrl: yup.string().required("This field is required"),
+  title: yup.string().required("Required"),
+  description: yup.string().required("Required"),
+  imageUrl: yup.string().required("Required"),
   timeInMins: yup
     .number()
     .typeError("Value must be a positive number")
     .positive("Value must be a positive number")
     .integer("Value must be an integer")
-    .required("This field is required"),
-  category: yup.string().required("This field is required"),
+    .required("Required"),
+  category: yup.string().required("Required"),
   ingredients: yup
     .array()
     .of(
       yup.object().shape({
-        ingredient: yup.string().required("required"),
+        ingredient: yup.string().required("Required"),
         amount: yup
           .number()
           .typeError("Value must be a positive number")
           .positive("Value must be a positive number")
           .integer("Value must be an integer")
-          .required("This field is required"),
-        unit: yup.string().required("required"),
+          .required("Required"),
+        unit: yup.string().required("Required"),
       })
     )
     .min(1, "Must be minimum 1 ingredient"),
@@ -45,7 +45,7 @@ const createRecipeSchema = yup.object().shape({
     .array()
     .of(
       yup.object().shape({
-        value: yup.string().required("required"),
+        value: yup.string().required("Required"),
       })
     )
     .min(1, "Must be minimum 1 step"),
@@ -88,8 +88,6 @@ export const RecipeForm = (props: RecipeFormProps) => {
     name: "instructions",
     control,
   });
-
-  console.log(errors);
 
   return (
     <>
@@ -173,80 +171,99 @@ export const RecipeForm = (props: RecipeFormProps) => {
           control={control}
         />
 
-        <GroupFields>
-          {ingredientsFields.map((field, index) => {
-            return (
-              <Grid container key={field.id} spacing={1}>
-                <Grid item>
-                  <Controller
-                    render={({ field }) => {
-                      return (
-                        <TextField
-                          placeholder={"Name"}
-                          label={"Name"}
-                          // error={!!errors["ingredients.ingredient"]}
-                          // helperText={
-                          //   errors["ingredients.ingredient"]
-                          //     ? errors["ingredients.ingredient"].message
-                          //     : ""
-                          // }
-                          {...field}
-                        />
-                      );
-                    }}
-                    name={
-                      `ingredients[${index}].ingredient` as "ingredients.0.ingredient"
-                    }
-                    control={control}
-                  />
-                </Grid>
-                <Grid item>
-                  <Controller
-                    render={({ field }) => {
-                      return (
-                        <TextField
-                          placeholder={"Amount"}
-                          label={"Amount"}
-                          {...field}
-                        />
-                      );
-                    }}
-                    name={
-                      `ingredients[${index}].amount` as "ingredients.0.amount"
-                    }
-                    defaultValue={field.amount}
-                    control={control}
-                  />
-                </Grid>
-                <Grid item>
-                  <Controller
-                    render={({ field }) => {
-                      return (
-                        <TextField
-                          placeholder={"Unit"}
-                          label={"Unit"}
-                          {...field}
-                        />
-                      );
-                    }}
-                    name={`ingredients[${index}].unit` as "ingredients.0.unit"}
-                    defaultValue={field.unit}
-                    control={control}
-                  />
-                </Grid>
-                <Button type="button" onClick={() => remove(index)}>
-                  &#8722;
-                </Button>
+        {ingredientsFields.map((field, index) => {
+          return (
+            <Grid container key={index} spacing={1}>
+              <Grid item>
+                <Controller
+                  render={({ field }) => {
+                    return (
+                      <TextField
+                        style={{ width: 210 }}
+                        placeholder={"Ingredient"}
+                        label={"Ingredient"}
+                        disabled={loading}
+                        error={!!errors["ingredients"]?.[index]?.["ingredient"]}
+                        helperText={
+                          errors["ingredients"]?.[index]?.["ingredient"]
+                            ? errors["ingredients"]?.[index]?.["ingredient"]
+                                ?.message
+                            : ""
+                        }
+                        {...field}
+                      />
+                    );
+                  }}
+                  name={
+                    `ingredients[${index}].ingredient` as "ingredients.0.ingredient"
+                  }
+                  control={control}
+                />
               </Grid>
-            );
-          })}
-          <Button
-            type="button"
-            onClick={() => append({ ingredient: "", amount: 0, unit: "" })}
-          >
-            Add ingredient
-          </Button>
-        </GroupFields>
+              <Grid item>
+                <Controller
+                  render={({ field }) => {
+                    return (
+                      <TextField
+                        style={{ width: 210 }}
+                        placeholder={"Amount"}
+                        label={"Amount"}
+                        disabled={loading}
+                        error={!!errors["ingredients"]?.[index]?.["amount"]}
+                        helperText={
+                          errors["ingredients"]?.[index]?.["amount"]
+                            ? errors["ingredients"]?.[index]?.["amount"]
+                                ?.message
+                            : ""
+                        }
+                        {...field}
+                      />
+                    );
+                  }}
+                  name={
+                    `ingredients[${index}].amount` as "ingredients.0.amount"
+                  }
+                  defaultValue={field.amount}
+                  control={control}
+                />
+              </Grid>
+              <Grid item>
+                <Controller
+                  render={({ field }) => {
+                    return (
+                      <TextField
+                        style={{ width: 210 }}
+                        placeholder={"Unit"}
+                        label={"Unit"}
+                        disabled={loading}
+                        error={!!errors["ingredients"]?.[index]?.["unit"]}
+                        helperText={
+                          errors["ingredients"]?.[index]?.["unit"]
+                            ? errors["ingredients"]?.[index]?.["unit"]?.message
+                            : ""
+                        }
+                        {...field}
+                      />
+                    );
+                  }}
+                  name={`ingredients[${index}].unit` as "ingredients.0.unit"}
+                  defaultValue={field.unit}
+                  control={control}
+                />
+              </Grid>
+              <IconButton onClick={() => remove(index)}>
+                <DeleteOutlined />
+              </IconButton>
+            </Grid>
+          );
+        })}
+
+        <Button
+          type="button"
+          onClick={() => append({ ingredient: "", amount: 0, unit: "" })}
+        >
+          Add ingredient
+        </Button>
 
         {instructionFields.map((item, index) => {
           return (
@@ -256,9 +273,17 @@ export const RecipeForm = (props: RecipeFormProps) => {
                   render={({ field }) => {
                     return (
                       <TextField
+                        style={{ width: 650 }}
                         placeholder={`Step ${index + 1}`}
                         label={`Step ${index + 1}`}
-                        multiline={true}
+                        disabled={loading}
+                        error={!!errors["instructions"]?.[index]?.["value"]}
+                        helperText={
+                          errors["instructions"]?.[index]?.["value"]
+                            ? errors["instructions"]?.[index]?.["value"]
+                                ?.message
+                            : ""
+                        }
                         {...field}
                       />
                     );
@@ -269,16 +294,16 @@ export const RecipeForm = (props: RecipeFormProps) => {
                   control={control}
                 />
               </Grid>
-
-              <Button type="button" onClick={() => instructionRemove(index)}>
-                &#8722;
-              </Button>
+              <IconButton onClick={() => instructionRemove(index)}>
+                <DeleteOutlined />
+              </IconButton>
             </Grid>
           );
         })}
         <Button type="button" onClick={() => instructionAppend({ value: "" })}>
           Add step
         </Button>
+
         <Box display="flex" gap="4px" justifyContent="flex-end">
           <Button disabled={loading} onClick={onCancel}>
             Cancel
@@ -291,14 +316,3 @@ export const RecipeForm = (props: RecipeFormProps) => {
     </>
   );
 };
-
-type GroupFieldsProps = {
-  isError?: boolean;
-};
-
-const GroupFields = styled.div<GroupFieldsProps>`
-  padding: 15px;
-  border-radius: 3px;
-  border-width: 1px;
-  border-style: solid;
-`;

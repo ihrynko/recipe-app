@@ -22,8 +22,13 @@ import * as selectors from "./selectors/categoryList";
 import Loader from "../../components/Loader";
 
 import AddIcon from "@mui/icons-material/Add";
-import { Grid } from "@mui/material";
-import { StyledCard, StyledButton, StyledContainer } from "./styled";
+import { Grid, Box } from "@mui/material";
+import {
+  StyledCard,
+  StyledButton,
+  StyledContainer,
+  StyledWrapper,
+} from "./styled";
 import { toast } from "react-toastify";
 
 const CategoryList = () => {
@@ -44,10 +49,10 @@ const CategoryList = () => {
 
   useEffect(() => {
     if (error && !loading) {
-        toast.error("Error! Bad request!", {
-          autoClose: 3000,
-        });
-        toast.clearWaitingQueue();
+      toast.error("Error! Bad request!", {
+        autoClose: 3000,
+      });
+      toast.clearWaitingQueue();
     }
   }, [error, loading]);
 
@@ -86,31 +91,35 @@ const CategoryList = () => {
       {loading && !categories && !error && <Loader />}
       {categories.length > 0 && !loading && !error && (
         <StyledContainer maxWidth="lg">
-          <Grid
-            container
-            justifyContent="center"
-            alignItems="center"
-            spacing={5}
-          >
-            <Grid container item xs={12} sm={6} md={8} spacing={5}>
+          <StyledWrapper>
+            <Box textAlign="right">
               <StyledButton onClick={handleCreateModalOpenToggle}>
                 <AddIcon /> Create Category
               </StyledButton>
+            </Box>
+
+            <Grid
+              container
+              spacing={2}
+              direction="column"
+              justifyContent="center"
+            >
               {categories.map((category) => {
                 return (
-                  <StyledCard key={category._id}>
-                    <CategoryCard
-                      category={category}
-                      onDelete={handleDeleteModalOpenToggle}
-                    />
-                  </StyledCard>
+                  <Grid item xs={3} sm={6} md={4} key={category._id}>
+                    <StyledCard key={category._id}>
+                      <CategoryCard
+                        category={category}
+                        onDelete={handleDeleteModalOpenToggle}
+                      />
+                    </StyledCard>
+                  </Grid>
                 );
               })}
             </Grid>
-          </Grid>
+          </StyledWrapper>
         </StyledContainer>
       )}
-
 
       <CreateCategoryModal
         onClose={handleCreateModalOpenToggle}

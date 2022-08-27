@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { RecipeCreateState } from '../../../types/pages';
+import { createSlice } from "@reduxjs/toolkit";
+import { RecipeCreateState } from "../../../types/pages";
 
-import * as actions from '../actions/recipeListCreateRecipe';
+import * as actions from "../actions/recipeListCreateRecipe";
 
 const initialState: RecipeCreateState = {
   data: {},
@@ -9,7 +9,7 @@ const initialState: RecipeCreateState = {
   loading: false,
 };
 
-const RECIPE_LIST_CREATE_RECIPE_SLICE = 'RECIPE_LIST_CREATE_RECIPE_SLICE';
+const RECIPE_LIST_CREATE_RECIPE_SLICE = "RECIPE_LIST_CREATE_RECIPE_SLICE";
 
 const recipeListCreateRecipeSlice = createSlice({
   name: RECIPE_LIST_CREATE_RECIPE_SLICE,

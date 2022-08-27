@@ -17,28 +17,6 @@ text-transform: uppercase;
 margin:0 auto;
 `;
 
-export const StyledCard = styles(Card)`
-margin-right: 20px;
-margin-bottom: 20px;
-max-width: 100%;
-  // @media (min-width: 768px) and (max-width: 1199px) {
-
-  //   &:nth-of-type(2n) {
-  //     margin-right: 0;
-  //   }
-  //   &:nth-last-of-type(2n) {
-  //     margin-bottom: 0;
-  //   }
-  // }
-  // @media (min-width: 1200px) {
-  //   &:nth-of-type(3n + 3) {
-  //     margin-right: 0;
-  //   }
-  //   &:nth-last-of-type(-n + 3) {
-  //     margin-bottom: 0;
-  //   }
-  // }
-`;
 export const StyledButton = styles(Button)`
 margin-bottom: 50px;
 color: #ffffff;

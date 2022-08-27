@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { RecipeDeleteState } from '../../../types/pages';
+import { createSlice } from "@reduxjs/toolkit";
+import { RecipeDeleteState } from "../../../types/pages";
 
-import * as actions from '../actions/recipeListDeleteRecipe';
+import * as actions from "../actions/recipeListDeleteRecipe";
 
 const initialState: RecipeDeleteState = {
   data: {},
@@ -9,7 +9,7 @@ const initialState: RecipeDeleteState = {
   loading: false,
 };
 
-const RECIPE_LIST_DELETE_RECIPE_SLICE = 'RECIPE_LIST_DELETE_RECIPE_SLICE';
+const RECIPE_LIST_DELETE_RECIPE_SLICE = "RECIPE_LIST_DELETE_RECIPE_SLICE";
 
 const recipeListDeleteRecipeSlice = createSlice({
   name: RECIPE_LIST_DELETE_RECIPE_SLICE,

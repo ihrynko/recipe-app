@@ -1,7 +1,9 @@
-import { PayloadAction } from '@reduxjs/toolkit';
-import { Recipe, RecipeListFetchState } from '../../../types/pages';
+import { PayloadAction } from "@reduxjs/toolkit";
+import { Recipe, RecipeListFetchState } from "../../../types/pages";
 
-export const recipeListFetchInProgressAction = (state: RecipeListFetchState) => {
+export const recipeListFetchInProgressAction = (
+  state: RecipeListFetchState
+) => {
   state.loading = true;
   state.error = null;
 };
@@ -13,6 +15,10 @@ export const recipeListFetchSuccessAction = (
   const { data } = action.payload;
   state.data = data;
   state.loading = false;
+};
+
+export const recipeListFetchUpdateAction = (state: RecipeListFetchState) => {
+  state.refreshIndex += 1;
 };
 
 export const recipeListFetchErrorAction = (

@@ -21,14 +21,13 @@ import { RecipeCard } from "./components/RecipeCard/RecipeCard";
 import * as selectors from "./selectors/recipeList";
 import Loader from "../../components/Loader";
 
-import { Grid, IconButton, Box } from "@mui/material";
+import { Grid, IconButton, Box, Card } from "@mui/material";
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddIcon from "@mui/icons-material/Add";
 import {
   StyledContainer,
   StyledBox,
   StyledTypography,
-  StyledCard,
   StyledButton,
 } from "./styled";
 import { toast } from "react-toastify";
@@ -40,21 +39,21 @@ const RecipeList = () => {
     loading,
     data: recipeList,
     error,
+    refreshIndex,
   } = useSelector(selectors.recipeListStateSelector);
-
   const { open, name } = useSelector(modalStateSelector);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (categoryId) {
+    if (categoryId && refreshIndex) {
       dispatch(recipeListFetchStart({ categoryId: categoryId }));
     }
     return () => {
       dispatch(recipeListResetData());
     };
-  }, [dispatch, categoryId]);
+  }, [dispatch, categoryId, refreshIndex]);
 
   useEffect(() => {
     if (error && !loading) {
@@ -100,11 +99,6 @@ const RecipeList = () => {
           <IconButton onClick={() => navigate(-1)}>
             <ReplyOutlinedIcon />
           </IconButton>
-          {!recipeList.length && (
-            <StyledTypography variant="h4">
-              Create your first recipe
-            </StyledTypography>
-          )}
           {recipeList.length > 0 && (
             <StyledTypography variant="h4">
               {recipeList[0].category.name}
@@ -128,12 +122,12 @@ const RecipeList = () => {
                 lg={4}
                 key={recipe._id}
               >
-                <StyledCard key={recipe._id}>
+                <Card key={recipe._id}>
                   <RecipeCard
                     recipe={recipe}
                     onDelete={handleDeleteModalOpenToggle}
                   />
-                </StyledCard>
+                </Card>
               </Grid>
             );
           })}

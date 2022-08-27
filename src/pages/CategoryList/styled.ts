@@ -1,15 +1,15 @@
-import { Card, Button, Container } from '@mui/material';
-import { styled as styles } from '@mui/material/styles';
-
+import { Card, Button, Container } from "@mui/material";
+import { styled as styles } from "@mui/material/styles";
+import styled from "styled-components";
 
 export const StyledCard = styles(Card)`
 max-width: 100%;
 margin-top: 20px;
 transition: 0.3s;
 background-color: #F3EFEB;
-`
+`;
 export const StyledButton = styles(Button)`
-margin-left: auto;
+justify-content: center;
 color: #ffffff;
 border: 1px solid #2f303a;
 background-color: #2f303a;
@@ -18,8 +18,13 @@ background-color: #2f303a;
      color: #2f303a;
      border: 1px solid #2f303a;
   }
-`
+`;
 
 export const StyledContainer = styles(Container)`
 margin-top:50px;
-`
+`;
+
+export const StyledWrapper = styled.section`
+  margin: 0 auto;
+  max-width: 800px;
+`;

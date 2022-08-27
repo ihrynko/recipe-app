@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
 export const StyledHeader = styled.header`
@@ -11,13 +11,16 @@ export const StyledHeader = styled.header`
   border-bottom: 2px solid #2f303a;
 `;
 
-
 export const StyledLogo = styled(NavLink)`
-    font-family: 'DynaPuff', cursive;
-    line-height: 60px;
+  font-family: "DynaPuff", cursive;
+  font-size: 45px;
+  line-height: 1.62;
+  @media screen and (min-width: 768px) {
     font-size: 70px;
-    font-weight: 200;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: #2f303a;
+    line-height: 1.36;
+  }
+
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #2f303a;
 `;

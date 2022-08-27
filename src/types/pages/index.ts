@@ -49,6 +49,7 @@ export type Ingredients = {
 };
 
 export type RecipeListFetchState = {
+  refreshIndex: 1 | number;
   data: Recipe[];
   error: string | null;
   loading: boolean;
