@@ -22,7 +22,7 @@ import {
 } from "@mui/material";
 import { toast } from "react-toastify";
 import { styled } from "@mui/material/styles";
-
+import background from "../../assets/background.jpg";
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -107,7 +107,7 @@ const RecipeItem = () => {
                 component="img"
                 height="194"
                 image={recipeData.imageUrl}
-                alt="Recipe image"
+                alt={recipeData.title}
               />
               <CardContent>
                 <Typography variant="body2" color="text.secondary">

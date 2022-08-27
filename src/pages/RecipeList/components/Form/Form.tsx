@@ -18,7 +18,13 @@ import { StyledForm } from "./styled";
 const createRecipeSchema = yup.object().shape({
   title: yup.string().required("Required"),
   description: yup.string().required("Required"),
-  imageUrl: yup.string().required("Required"),
+  imageUrl: yup
+    .string()
+    .required("Required")
+    .matches(
+      /\.(jpeg|jpg|gif|png)$/,
+      "Only image URL is allowed for this field "
+    ),
   timeInMins: yup
     .number()
     .typeError("Value must be a positive number")

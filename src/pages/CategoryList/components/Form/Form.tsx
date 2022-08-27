@@ -7,9 +7,15 @@ import { Box, Typography, TextField, Button } from "@mui/material";
 import { StyledForm } from "./styled";
 
 const createCategorySchema = yup.object().shape({
-  name: yup.string().required("This field is required"),
+  name: yup.string().required("Required"),
   description: yup.string(),
-  image: yup.string().required("This field is required"),
+  image: yup
+    .string()
+    .required("Required")
+    .matches(
+      /\.(jpeg|jpg|gif|png)$/,
+      "Only image URL is allowed for this field "
+    ),
 });
 
 type CategoryFormProps = {

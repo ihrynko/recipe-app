@@ -36,7 +36,7 @@ export const CategoryCard = (props: CategoryCardProps) => {
         component="img"
         height="300"
         image={category.image}
-        alt="Category image"
+        alt={category.name}
       />
 
       <CardContent>
