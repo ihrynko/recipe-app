@@ -28,6 +28,11 @@ export type CategoryDeleteState = {
   error: string | null;
   loading: boolean;
 };
+export type CategorySearchState = {
+  data: Category[];
+  error: string | null;
+  loading: boolean;
+};
 
 export type Recipe = {
   _id: string;

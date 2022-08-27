@@ -37,6 +37,7 @@ const CategoryList = () => {
     loading,
     error,
   } = useSelector(selectors.categoryListStateSelector);
+
   const { open, name } = useSelector(modalStateSelector);
   const dispatch = useAppDispatch();
 
@@ -120,7 +121,6 @@ const CategoryList = () => {
           </StyledWrapper>
         </StyledContainer>
       )}
-
       <CreateCategoryModal
         onClose={handleCreateModalOpenToggle}
         onSave={handleCreateCategory}

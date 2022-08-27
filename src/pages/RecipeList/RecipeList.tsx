@@ -93,7 +93,7 @@ const RecipeList = () => {
 
   return (
     <>
-      {loading && !recipeList && !error && <Loader />}
+      {!recipeList && loading && !error && <Loader />}
       <StyledContainer maxWidth="lg">
         <StyledBox>
           <IconButton onClick={() => navigate(-1)}>
