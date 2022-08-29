@@ -6,6 +6,7 @@ export type Category = {
 };
 
 export type CategoryListFetchState = {
+  search: string;
   data: Category[];
   error: string | null;
   loading: boolean;
@@ -99,4 +100,8 @@ export type RecipeItemState = {
   data: Recipe | Record<string, never>;
   error: string | null;
   loading: boolean;
+};
+
+export type Query = {
+  search?: string | null;
 };

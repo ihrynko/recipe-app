@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, ChangeEvent } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../store";
 import { useNavigate } from "react-router-dom";
@@ -6,9 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { CategoryCard } from "./components/CategoryCard/CategoryCard";
 import { CreateCategoryModal } from "./components/CreateCategoryModal/CreateCategoryModal";
 import { DeleteCategoryModal } from "./components/DeleteCategoryModal/DeleteCategoryModal";
-
+// import debounce from "lodash.debounce";
 import { deleteActions } from "./reducers/categoryListDeleteCategory";
-import { categoryListResetData } from "./reducers/categoryList";
+import {
+  categoryListAddQuery,
+  categoryListResetData,
+} from "./reducers/categoryList";
 import { categoryListFetchStart } from "./thunks/categoryList";
 
 import { modalStateSelector } from "../../store/modal/selectors/modal";
@@ -31,14 +34,17 @@ import {
   StyledContainer,
   StyledWrapper,
   StyledBox,
+  StyledBoxWrapper,
 } from "./styled";
 import { toast } from "react-toastify";
+import { Search } from "../../components/Search/Search";
 
 const CategoryList = () => {
   const {
     data: categories,
     loading,
     error,
+    search,
   } = useSelector(selectors.categoryListStateSelector);
 
   const { open, name } = useSelector(modalStateSelector);
@@ -47,6 +53,7 @@ const CategoryList = () => {
 
   useEffect(() => {
     dispatch(categoryListFetchStart());
+
     return () => {
       dispatch(categoryListResetData());
     };
@@ -90,23 +97,33 @@ const CategoryList = () => {
     },
     [dispatch]
   );
+  // const debounceFn = useCallback(debounce(getMovieList, 500), []);
+  const handleChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch(categoryListAddQuery(event.target.value));
+  };
 
   return (
     <>
-      {loading && !categories && !error && <Loader />}
-      {categories.length > 0 && !loading && !error && (
+      {/* {loading && !categories && !error && <Loader />} */}
+
+      {categories.length > 0 && !error && (
         <StyledContainer maxWidth="lg">
+          <IconButton onClick={() => navigate(-1)}>
+            <ReplyOutlinedIcon />
+          </IconButton>
+          <StyledBoxWrapper>
+            <Search
+              name="category"
+              value={search}
+              onChange={handleChangeSearch}
+            />
+          </StyledBoxWrapper>
           <StyledWrapper>
-            <StyledBox>
-              <IconButton onClick={() => navigate(-1)}>
-                <ReplyOutlinedIcon />
-              </IconButton>
-              <Box textAlign="right">
-                <StyledButton onClick={handleCreateModalOpenToggle}>
-                  <AddIcon /> Create Category
-                </StyledButton>
-              </Box>
-            </StyledBox>
+            <Box textAlign="right">
+              <StyledButton onClick={handleCreateModalOpenToggle}>
+                <AddIcon /> Create Category
+              </StyledButton>
+            </Box>
 
             <Grid
               container

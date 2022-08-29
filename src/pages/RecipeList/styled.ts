@@ -10,6 +10,12 @@ display: flex;
 margin-bottom: 30px;
 `;
 
+export const StyledBoxWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+`;
+
 export const StyledTypography = styles(Typography)`
 font-family: 'Raleway', italic;
 color: #E35640;

@@ -25,7 +25,7 @@ const Page404 = () => {
       </StyledParagraph>
 
       <StyledButton variant="contained">
-        <StyledLink to="/categories">Go Back Home</StyledLink>
+        <StyledLink to="/">Go Back Home</StyledLink>
       </StyledButton>
     </StyledContainer>
   );

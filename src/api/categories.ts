@@ -1,21 +1,24 @@
-import { Category, Recipe } from "../types/pages";
+import { Category, Recipe, Query } from "../types/pages";
 import { client } from "./client";
 
-export const getAllCategories = async () => {
+export const getAllCategories = async (query: Query = {}) => {
   try {
-    return await client.get<never, Category[]>("/categories");
+    return await client.get<never, Category[]>("/categories", {
+      params: query,
+    });
   } catch (error) {
     return Promise.reject(error);
   }
 };
 
-export type RecipeQuery = {
-  search?: string | null;
-};
-
-export const getAllRecipesInCategory = async (categoryId: string) => {
+export const getAllRecipesInCategory = async (
+  categoryId: string,
+  query?: Query
+) => {
   try {
-    return await client.get<never, Recipe[]>(`/categories/${categoryId}`);
+    return await client.get<never, Recipe[]>(`/categories/${categoryId}`, {
+      params: query,
+    });
   } catch (error) {
     return Promise.reject(error);
   }

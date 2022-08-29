@@ -6,37 +6,19 @@ import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
 
 import SearchIcon from "@mui/icons-material/Search";
-import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../store";
-import { recipeListBySearchFetchStart } from "../../pages/RecipeList/thunks/recipeListSearchRecipe";
-import {
-  recipeListSearchResetData,
-  recipeListChangeValue,
-} from "../../pages/RecipeList/reducers/recipeListSearchRecipe";
-import { recipeSearchStateSelector } from "../../pages/RecipeList/selectors/recipeList";
+import { ChangeEvent } from "react";
 
-export default function Search() {
-  const { query, data } = useSelector(recipeSearchStateSelector);
+type SearchProps = {
+  value: string;
+  name: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+};
 
-  const dispatch = useAppDispatch();
+export const Search = (props: SearchProps) => {
+  const { value, onChange, name } = props;
 
-  console.log(data);
-
-  useEffect(() => {
-    if (query) {
-      dispatch(recipeListBySearchFetchStart({ query: query }));
-    }
-    return () => {
-      dispatch(recipeListSearchResetData());
-    };
-  }, [dispatch, query]);
-
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-  };
-
-  const handleChange = (e: { target: { value: string } }) => {
-    dispatch(recipeListChangeValue({ query: e.target.value }));
+  const handleSubmit = (event: { preventDefault: () => void }) => {
+    event.preventDefault();
   };
 
   return (
@@ -50,10 +32,11 @@ export default function Search() {
       </IconButton>
       <InputBase
         sx={{ ml: 1, flex: 1 }}
-        placeholder="Search Recipe"
+        value={value}
+        placeholder={name === "category" ? "Search Category" : "Search Recipe"}
         inputProps={{ "aria-label": "search recipe" }}
-        onChange={handleChange}
+        onChange={onChange}
       />
     </Paper>
   );
-}
+};

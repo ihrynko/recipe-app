@@ -135,7 +135,6 @@ const RecipeItem = () => {
                   },
                 }}
                 onChange={handleChange}
-                centered
               >
                 <StyledTabs label="Ingredients" {...a11yProps(0)} />
                 <StyledTabs label="Method" {...a11yProps(1)} />

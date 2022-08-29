@@ -9,6 +9,18 @@ export const categoryListFetchInProgressAction = (
   state.error = null;
 };
 
+export const categoryListAddQueryAction = (
+  state: CategoryListFetchState,
+  action: PayloadAction<string>
+) => {
+  // const { search } = action.payload;
+  state.search = action.payload;
+};
+
+export const categoryListClearQueryAction = (state: CategoryListFetchState) => {
+  state.search = "";
+};
+
 export const categoryListFetchSuccessAction = (
   state: CategoryListFetchState,
   action: PayloadAction<{ data: Category[] }>

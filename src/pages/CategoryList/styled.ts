@@ -32,3 +32,8 @@ export const StyledWrapper = styled.section`
   margin: 0 auto;
   max-width: 800px;
 `;
+export const StyledBoxWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+`;

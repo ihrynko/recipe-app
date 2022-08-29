@@ -11,6 +11,7 @@ import {
   Button,
   IconButton,
   Grid,
+  MenuItem,
 } from "@mui/material";
 import DeleteOutlined from "@mui/icons-material/DeleteOutlined";
 import { StyledForm } from "./styled";
@@ -59,9 +60,36 @@ type RecipeFormProps = {
   onCancel: () => void;
 };
 
+const currencies = [
+  {
+    value: "USD",
+    label: "$",
+  },
+  {
+    value: "EUR",
+    label: "€",
+  },
+  {
+    value: "BTC",
+    label: "฿",
+  },
+  {
+    value: "JPY",
+    label: "¥",
+  },
+];
+
 export const RecipeForm = (props: RecipeFormProps) => {
   const { onSave, name, loading, onCancel } = props;
   const { categoryId } = useParams();
+
+  const [currency, setCurrency] = React.useState("EUR");
+
+  const handleChange = (event: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setCurrency(event.target.value);
+  };
 
   const {
     control,
@@ -224,14 +252,23 @@ export const RecipeForm = (props: RecipeFormProps) => {
                         placeholder={"Unit"}
                         label={"Unit"}
                         disabled={loading}
+                        select={true}
                         error={!!errors["ingredients"]?.[index]?.["unit"]}
                         helperText={
                           errors["ingredients"]?.[index]?.["unit"]
                             ? errors["ingredients"]?.[index]?.["unit"]?.message
                             : ""
                         }
-                        {...field}
-                      />
+                        onFocus={(event) => {
+                          event.target.select();
+                        }}
+                        {...currencies.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                        // {...field}
+                      ></TextField>
                     );
                   }}
                   name={`ingredients[${index}].unit` as "ingredients.0.unit"}

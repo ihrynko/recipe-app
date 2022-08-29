@@ -20,7 +20,7 @@ import { Recipe, RecipeCreate } from "../../types/pages/index";
 import { RecipeCard } from "./components/RecipeCard/RecipeCard";
 import * as selectors from "./selectors/recipeList";
 import Loader from "../../components/Loader";
-import Search from "../../components/Search/Search";
+import { Search } from "../../components/Search/Search";
 
 import { Grid, IconButton, Box, Card } from "@mui/material";
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
@@ -30,12 +30,12 @@ import {
   StyledBox,
   StyledTypography,
   StyledButton,
+  StyledBoxWrapper,
 } from "./styled";
 import { toast } from "react-toastify";
 
 const RecipeList = () => {
   const { categoryId } = useParams();
-  const { query, data } = useSelector(selectors.recipeSearchStateSelector);
 
   const {
     loading,
@@ -110,8 +110,8 @@ const RecipeList = () => {
             </StyledTypography>
           )}
         </StyledBox>
-        <Search />
         <Box textAlign="center">
+          <StyledBoxWrapper>{/* <Search /> */}</StyledBoxWrapper>
           <StyledButton onClick={handleCreateModalOpenToggle}>
             <AddIcon /> Create Recipe
           </StyledButton>
