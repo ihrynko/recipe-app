@@ -52,12 +52,16 @@ const CategoryList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(categoryListFetchStart());
+    dispatch(categoryListFetchStart(""));
 
     return () => {
       dispatch(categoryListResetData());
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(categoryListFetchStart(search));
+  }, [dispatch, search]);
 
   useEffect(() => {
     if (error && !loading) {
@@ -97,56 +101,63 @@ const CategoryList = () => {
     },
     [dispatch]
   );
-  // const debounceFn = useCallback(debounce(getMovieList, 500), []);
-  const handleChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {
-    dispatch(categoryListAddQuery(event.target.value));
+
+  const handleChangeSearch = (search: string) => {
+    dispatch(categoryListAddQuery(search));
   };
 
   return (
     <>
-      {/* {loading && !categories && !error && <Loader />} */}
+      {loading && !categories && !error && <Loader />}
 
-      {categories.length > 0 && !error && (
-        <StyledContainer maxWidth="lg">
-          <IconButton onClick={() => navigate(-1)}>
-            <ReplyOutlinedIcon />
-          </IconButton>
-          <StyledBoxWrapper>
-            <Search
-              name="category"
-              value={search}
-              onChange={handleChangeSearch}
-            />
-          </StyledBoxWrapper>
-          <StyledWrapper>
-            <Box textAlign="right">
-              <StyledButton onClick={handleCreateModalOpenToggle}>
-                <AddIcon /> Create Category
-              </StyledButton>
-            </Box>
+      <StyledContainer maxWidth="lg">
+        <IconButton onClick={() => navigate(-1)}>
+          <ReplyOutlinedIcon />
+        </IconButton>
+        <StyledBoxWrapper>
+          <Search
+            name="category"
+            value={search}
+            onChange={(event) => handleChangeSearch(event.target.value)}
+          />
+        </StyledBoxWrapper>
+        {categories.length === 0 && (
+          <div>
+            <h1>Not found category</h1>
+          </div>
+        )}
 
-            <Grid
-              container
-              spacing={2}
-              direction="column"
-              justifyContent="center"
-            >
-              {categories.map((category) => {
-                return (
-                  <Grid item xs={3} sm={6} md={4} key={category._id}>
-                    <StyledCard key={category._id}>
-                      <CategoryCard
-                        category={category}
-                        onDelete={handleDeleteModalOpenToggle}
-                      />
-                    </StyledCard>
-                  </Grid>
-                );
-              })}
-            </Grid>
-          </StyledWrapper>
-        </StyledContainer>
-      )}
+        <StyledWrapper>
+          {categories.length > 0 && !error && (
+            <>
+              <Box textAlign="right">
+                <StyledButton onClick={handleCreateModalOpenToggle}>
+                  <AddIcon /> Create Category
+                </StyledButton>
+              </Box>
+              <Grid
+                container
+                spacing={2}
+                direction="column"
+                justifyContent="center"
+              >
+                {categories.map((category) => {
+                  return (
+                    <Grid item xs={3} sm={6} md={4} key={category._id}>
+                      <StyledCard key={category._id}>
+                        <CategoryCard
+                          category={category}
+                          onDelete={handleDeleteModalOpenToggle}
+                        />
+                      </StyledCard>
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </>
+          )}
+        </StyledWrapper>
+      </StyledContainer>
       <CreateCategoryModal
         onClose={handleCreateModalOpenToggle}
         onSave={handleCreateCategory}

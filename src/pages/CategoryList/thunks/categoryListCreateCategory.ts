@@ -23,7 +23,7 @@ export const categoryListCreateCategory = createAsyncThunk<
     dispatch(createActions.categoryCreateSuccess());
     dispatch(modalOpenToggleAction({ name: MODAL_NAME.CATEGORY_CREATE }));
     toast.success('Category has been created successfully!');
-    await dispatch(categoryListFetchStart());
+    await dispatch(categoryListFetchStart(""));
   } catch (error) {
     dispatch(createActions.categoryCreateError({ error: error as string }));
     toast.error(error as string);

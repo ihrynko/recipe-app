@@ -111,7 +111,7 @@ const RecipeList = () => {
           )}
         </StyledBox>
         <Box textAlign="center">
-          <StyledBoxWrapper>{/* <Search /> */}</StyledBoxWrapper>
+          {/* <StyledBoxWrapper><Search /></StyledBoxWrapper> */}
           <StyledButton onClick={handleCreateModalOpenToggle}>
             <AddIcon /> Create Recipe
           </StyledButton>
