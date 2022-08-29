@@ -37,7 +37,6 @@ const recipeListSlice = createSlice({
   },
 });
 
-export const { recipeListResetData, recipeListFetchUpdate } =
-  recipeListSlice.actions;
+export const { recipeListResetData, recipeListFetchUpdate } = recipeListSlice.actions;
 
 export const recipeListReducer = recipeListSlice.reducer;

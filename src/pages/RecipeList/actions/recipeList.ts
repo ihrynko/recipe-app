@@ -8,6 +8,16 @@ export const recipeListFetchInProgressAction = (
   state.error = null;
 };
 
+// export const recipeListChangeValueAction = (
+//   state: RecipeListFetchState,
+//   action: PayloadAction<{ query: string }>
+// ) => {
+//   const { query } = action.payload;
+
+//   state.loading = false;
+//   state.query = query;
+// };
+
 export const recipeListFetchSuccessAction = (
   state: RecipeListFetchState,
   action: PayloadAction<{ data: Recipe[] }>

@@ -20,6 +20,7 @@ import { Recipe, RecipeCreate } from "../../types/pages/index";
 import { RecipeCard } from "./components/RecipeCard/RecipeCard";
 import * as selectors from "./selectors/recipeList";
 import Loader from "../../components/Loader";
+import Search from "../../components/Search/Search";
 
 import { Grid, IconButton, Box, Card } from "@mui/material";
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
@@ -34,6 +35,7 @@ import { toast } from "react-toastify";
 
 const RecipeList = () => {
   const { categoryId } = useParams();
+  const { query, data } = useSelector(selectors.recipeSearchStateSelector);
 
   const {
     loading,
@@ -75,10 +77,13 @@ const RecipeList = () => {
     dispatch(modalOpenToggleAction({ name: MODAL_NAME.RECIPE_CREATE }));
   }, [dispatch]);
 
-  const handleDeleteModalOpenToggle = useCallback((item: Recipe) => {
-    dispatch(deleteActions.recipeDeleteItemDataSet({ data: item }));
-    dispatch(modalOpenToggleAction({ name: MODAL_NAME.RECIPE_DELETE }));
-  }, []);
+  const handleDeleteModalOpenToggle = useCallback(
+    (item: Recipe) => {
+      dispatch(deleteActions.recipeDeleteItemDataSet({ data: item }));
+      dispatch(modalOpenToggleAction({ name: MODAL_NAME.RECIPE_DELETE }));
+    },
+    [dispatch]
+  );
 
   const handleDeleteModalClose = useCallback(() => {
     dispatch(modalOpenToggleAction({ name: MODAL_NAME.RECIPE_DELETE }));
@@ -105,6 +110,7 @@ const RecipeList = () => {
             </StyledTypography>
           )}
         </StyledBox>
+        <Search />
         <Box textAlign="center">
           <StyledButton onClick={handleCreateModalOpenToggle}>
             <AddIcon /> Create Recipe

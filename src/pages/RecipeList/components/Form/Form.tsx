@@ -21,16 +21,11 @@ const createRecipeSchema = yup.object().shape({
   imageUrl: yup
     .string()
     .required("Required")
+    .url("Image must be a valid URL.")
     .matches(
       /\.(jpeg|jpg|gif|png)$/,
       "Only image URL is allowed for this field "
     ),
-  timeInMins: yup
-    .number()
-    .typeError("Value must be a positive number")
-    .positive("Value must be a positive number")
-    .integer("Value must be an integer")
-    .required("Required"),
   category: yup.string().required("Required"),
   ingredients: yup
     .array()
@@ -73,6 +68,10 @@ export const RecipeForm = (props: RecipeFormProps) => {
     handleSubmit,
     formState: { errors },
   } = useForm<RecipeCreate>({
+    defaultValues: {
+      ingredients: [{ ingredient: "", amount: 0, unit: "" }],
+      instructions: [{ value: "" }],
+    },
     resolver: yupResolver(createRecipeSchema),
     mode: "all",
   });
@@ -151,23 +150,6 @@ export const RecipeForm = (props: RecipeFormProps) => {
           defaultValue={""}
         />
 
-        <Controller
-          render={({ field }) => (
-            <TextField
-              placeholder="Enter time in minutes"
-              label="Cooking time"
-              disabled={loading}
-              error={!!errors["timeInMins"]}
-              helperText={
-                errors["timeInMins"] ? errors["timeInMins"].message : ""
-              }
-              {...field}
-            />
-          )}
-          name="timeInMins"
-          control={control}
-          defaultValue={0}
-        />
         <Controller
           render={({ field }) => {
             return <input type="hidden" {...field} />;
@@ -315,7 +297,7 @@ export const RecipeForm = (props: RecipeFormProps) => {
             Cancel
           </Button>
           <Button disabled={loading} variant="contained" type="submit">
-            Submit
+            Create
           </Button>
         </Box>
       </StyledForm>

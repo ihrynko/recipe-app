@@ -1,7 +1,6 @@
 import { Recipe, RecipeCreate } from "../types/pages";
 import { client } from "./client";
 
-
 export const getRecipeById = async (id: string) => {
   try {
     return await client.get(`/recipes/${id}`);
@@ -9,7 +8,6 @@ export const getRecipeById = async (id: string) => {
     return Promise.reject(error);
   }
 };
-
 
 export const deleteRecipe = async (id: string) => {
   try {
@@ -19,7 +17,7 @@ export const deleteRecipe = async (id: string) => {
   }
 };
 
-export const createRecipe= async (data: RecipeCreate) => {
+export const createRecipe = async (data: RecipeCreate) => {
   try {
     return await client.post<never, RecipeCreate>("/recipes", { ...data });
   } catch (error) {
@@ -29,7 +27,7 @@ export const createRecipe= async (data: RecipeCreate) => {
 
 export const getRecipesBySearch = async (query: string) => {
   try {
-    return await client.get(`/recipes/search/${query}`);
+    return await client.get<never, Recipe[]>(`/recipes/search/${query}`);
   } catch (error) {
     return Promise.reject(error);
   }

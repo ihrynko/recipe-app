@@ -1,4 +1,4 @@
-import { Card, Button, Container } from "@mui/material";
+import { Card, Button, Box, Container } from "@mui/material";
 import { styled as styles } from "@mui/material/styles";
 import styled from "styled-components";
 
@@ -9,7 +9,6 @@ transition: 0.3s;
 background-color: #F3EFEB;
 `;
 export const StyledButton = styles(Button)`
-justify-content: center;
 color: #ffffff;
 border: 1px solid #2f303a;
 background-color: #2f303a;
@@ -18,6 +17,11 @@ background-color: #2f303a;
      color: #2f303a;
      border: 1px solid #2f303a;
   }
+`;
+
+export const StyledBox = styles(Box)`
+display: flex;
+justify-content: space-between;
 `;
 
 export const StyledContainer = styles(Container)`

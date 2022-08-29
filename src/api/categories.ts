@@ -9,6 +9,10 @@ export const getAllCategories = async () => {
   }
 };
 
+export type RecipeQuery = {
+  search?: string | null;
+};
+
 export const getAllRecipesInCategory = async (categoryId: string) => {
   try {
     return await client.get<never, Recipe[]>(`/categories/${categoryId}`);
@@ -28,6 +32,14 @@ export const deleteCategory = async (id: string) => {
 export const createCategory = async (data: Partial<Category>) => {
   try {
     return await client.post<never, Category>("/categories", { ...data });
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const getCategoriesBySearch = async (query: string) => {
+  try {
+    return await client.get(`/categories/search/${query}`);
   } catch (error) {
     return Promise.reject(error);
   }

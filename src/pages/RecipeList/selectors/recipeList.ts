@@ -6,4 +6,8 @@ export const recipeCreateStateSelector = (state: RootState) => state.recipeList.
 
 export const recipeDeleteStateSelector = (state: RootState) => state.recipeList.deleteRecipeReducer;
 
+export const recipeSearchStateSelector = (state: RootState) =>
+  state.recipeList.recipeListBySearch;
+
+
 

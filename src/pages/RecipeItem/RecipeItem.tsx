@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch } from "../../store";
@@ -7,47 +7,69 @@ import { recipeItemFetchStart } from "./thunks/recipeItem";
 import { recipeItemResetData } from "./reducers/recipeItem";
 import { recipeItemStateSelector } from "./selectors/recipeItem";
 
-import { modalStateSelector } from "../../store/modal/selectors/modal";
-import { MODAL_NAME } from "../../store/modal/actions/modal";
-import { modalOpenToggleAction } from "../../store/modal/reducers/modal";
-
-import {
-  Card,
-  CardHeader,
-  CardMedia,
-  CardContent,
-  CardActions,
-  Collapse,
-  Typography,
-} from "@mui/material";
+import { CardMedia, CardContent, Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import { styled } from "@mui/material/styles";
-import background from "../../assets/background.jpg";
+
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
-import IconButton, { IconButtonProps } from "@mui/material/IconButton";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import IconButton from "@mui/material/IconButton";
+import Box from "@mui/material/Box";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
 
 import Loader from "../../components/Loader";
-import { StyledContainer, StyledBox, StyledItem, StyledButton } from "./styled";
+import {
+  StyledContainer,
+  StyledBox,
+  StyledItem,
+  StyledList,
+  StyledWrapperContent,
+  StyledContent,
+  StyledTitle,
+  StyledIngredients,
+  StyledWrapperTabs,
+  StyledTabs,
+} from "./styled";
 
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean;
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
 }
 
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ paddingTop: "10px" }}>
+          <Typography paragraph>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
 
 const RecipeItem = () => {
   const { recipeId } = useParams();
-  const { open, name } = useSelector(modalStateSelector);
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
 
   const {
     loading,
@@ -76,22 +98,6 @@ const RecipeItem = () => {
     }
   }, [error, loading]);
 
-  const handleExpandIngredientsClick = useCallback(() => {
-    dispatch(modalOpenToggleAction({ name: MODAL_NAME.RECIPE_INGREDIENTS }));
-  }, [dispatch]);
-
-  const handleExpandMethodClick = useCallback(() => {
-    dispatch(modalOpenToggleAction({ name: MODAL_NAME.RECIPE_METHOD }));
-  }, [dispatch]);
-
-  const handleExpandClose = useCallback(() => {
-    dispatch(
-      modalOpenToggleAction({
-        name: MODAL_NAME.RECIPE_INGREDIENTS || MODAL_NAME.RECIPE_METHOD,
-      })
-    );
-  }, [dispatch]);
-
   return (
     <>
       {loading && !error && <Loader />}
@@ -101,80 +107,62 @@ const RecipeItem = () => {
             <ReplyOutlinedIcon />
           </IconButton>
           <StyledBox>
-            <Card sx={{ maxWidth: 700 }}>
-              <CardHeader title={recipeData.title} />
+            <StyledContent>
               <CardMedia
                 component="img"
-                height="194"
+                height="300px"
                 image={recipeData.imageUrl}
                 alt={recipeData.title}
               />
-              <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                  {recipeData.description}
-                </Typography>
-              </CardContent>
-              <CardActions disableSpacing>
-                <StyledButton
-                  disabled={open && name === MODAL_NAME.RECIPE_METHOD}
-                  onClick={handleExpandIngredientsClick}
-                >
-                  Ingredients
-                </StyledButton>
-                <StyledButton
-                  disabled={open && name === MODAL_NAME.RECIPE_INGREDIENTS}
-                  onClick={handleExpandMethodClick}
-                >
-                  Method
-                </StyledButton>
-                <ExpandMore
-                  expand={open}
-                  onClick={handleExpandClose}
-                  aria-expanded={open}
-                  aria-label="show more"
-                >
-                  <ExpandMoreIcon />
-                </ExpandMore>
-              </CardActions>
-              <Collapse
-                in={open && name === MODAL_NAME.RECIPE_INGREDIENTS}
-                timeout="auto"
-                unmountOnExit
-              >
+              <StyledWrapperContent>
+                <StyledTitle>{recipeData.title}</StyledTitle>
+
                 <CardContent>
-                  <ul>
-                    {recipeData.ingredients.map((ingredient, index) => {
-                      return (
-                        <li key={index}>
-                          <Typography paragraph>
-                            {ingredient.amount} {ingredient.unit}{" "}
-                            {ingredient.ingredient}
-                          </Typography>
-                        </li>
-                      );
-                    })}
-                  </ul>
+                  <Typography variant="body2" color="text.secondary">
+                    {recipeData.description}
+                  </Typography>
                 </CardContent>
-              </Collapse>
-              <Collapse
-                in={open && name === MODAL_NAME.RECIPE_METHOD}
-                timeout="auto"
-                unmountOnExit
-              >
-                <CardContent>
-                  <ol>
-                    {recipeData.instructions.map((step, index) => {
-                      return (
-                        <StyledItem key={index}>
-                          <Typography paragraph>{step.value} </Typography>
-                        </StyledItem>
-                      );
-                    })}
-                  </ol>
-                </CardContent>
-              </Collapse>
-            </Card>
+              </StyledWrapperContent>
+            </StyledContent>
           </StyledBox>
+          <StyledWrapperTabs sx={{ width: "60%" }}>
+            <Box sx={{ marginBottom: "10px" }}>
+              <Tabs
+                value={value}
+                TabIndicatorProps={{
+                  style: {
+                    backgroundColor: "#E35640",
+                  },
+                }}
+                onChange={handleChange}
+                centered
+              >
+                <StyledTabs label="Ingredients" {...a11yProps(0)} />
+                <StyledTabs label="Method" {...a11yProps(1)} />
+              </Tabs>
+            </Box>
+            <StyledList>
+              {recipeData.ingredients.map((ingredient, index) => {
+                return (
+                  <TabPanel value={value} index={0} key={index}>
+                    <StyledIngredients key={index}>
+                      {ingredient.amount + ingredient.unit}{" "}
+                      {ingredient.ingredient}
+                    </StyledIngredients>
+                  </TabPanel>
+                );
+              })}
+            </StyledList>
+            <ol>
+              {recipeData.instructions.map((step, index) => {
+                return (
+                  <TabPanel value={value} index={1} key={index}>
+                    <StyledItem key={index}>{step.value}</StyledItem>
+                  </TabPanel>
+                );
+              })}
+            </ol>
+          </StyledWrapperTabs>
         </StyledContainer>
       )}
     </>

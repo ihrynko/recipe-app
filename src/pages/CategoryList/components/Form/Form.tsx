@@ -12,6 +12,7 @@ const createCategorySchema = yup.object().shape({
   image: yup
     .string()
     .required("Required")
+    .url("Image must be a valid URL.")
     .matches(
       /\.(jpeg|jpg|gif|png)$/,
       "Only image URL is allowed for this field "
@@ -97,7 +98,7 @@ export const CategoryForm = (props: CategoryFormProps) => {
             Cancel
           </Button>
           <Button disabled={loading} variant="contained" type="submit">
-            Submit
+            Create
           </Button>
         </Box>
       </StyledForm>

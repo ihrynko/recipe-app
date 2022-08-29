@@ -1,6 +1,7 @@
 import { useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../store";
+import { useNavigate } from "react-router-dom";
 
 import { CategoryCard } from "./components/CategoryCard/CategoryCard";
 import { CreateCategoryModal } from "./components/CreateCategoryModal/CreateCategoryModal";
@@ -21,13 +22,15 @@ import { CategoryCreate, Category } from "../../types/pages/index";
 import * as selectors from "./selectors/categoryList";
 import Loader from "../../components/Loader";
 
+import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddIcon from "@mui/icons-material/Add";
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, IconButton } from "@mui/material";
 import {
   StyledCard,
   StyledButton,
   StyledContainer,
   StyledWrapper,
+  StyledBox,
 } from "./styled";
 import { toast } from "react-toastify";
 
@@ -40,6 +43,7 @@ const CategoryList = () => {
 
   const { open, name } = useSelector(modalStateSelector);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(categoryListFetchStart());
@@ -93,11 +97,16 @@ const CategoryList = () => {
       {categories.length > 0 && !loading && !error && (
         <StyledContainer maxWidth="lg">
           <StyledWrapper>
-            <Box textAlign="right">
-              <StyledButton onClick={handleCreateModalOpenToggle}>
-                <AddIcon /> Create Category
-              </StyledButton>
-            </Box>
+            <StyledBox>
+              <IconButton onClick={() => navigate(-1)}>
+                <ReplyOutlinedIcon />
+              </IconButton>
+              <Box textAlign="right">
+                <StyledButton onClick={handleCreateModalOpenToggle}>
+                  <AddIcon /> Create Category
+                </StyledButton>
+              </Box>
+            </StyledBox>
 
             <Grid
               container

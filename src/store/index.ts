@@ -8,6 +8,7 @@ import { deleteCategoryReducer } from "../pages/CategoryList/reducers/categoryLi
 import { recipeListReducer } from "../pages/RecipeList/reducers/recipeList";
 import { createRecipeReducer } from "../pages/RecipeList/reducers/recipeListCreateRecipe";
 import { deleteRecipeReducer } from "../pages/RecipeList/reducers/recipeListDeleteRecipe";
+import {recipeListBySearch} from '../pages/RecipeList/reducers/recipeListSearchRecipe'
 
 import { recipeItem } from "../pages/RecipeItem/reducers/recipeItem";
 
@@ -23,6 +24,7 @@ const recipeList = combineReducers({
   recipeListReducer,
   createRecipeReducer,
   deleteRecipeReducer,
+  recipeListBySearch,
 });
 
 const rootReducer = combineReducers({

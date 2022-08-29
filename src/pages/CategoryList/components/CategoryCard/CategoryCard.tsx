@@ -10,11 +10,20 @@ import {
   Box,
   IconButton,
 } from "@mui/material";
-import { StyledLink, StyledCardHeader } from "./styled";
+import { StyledLink, StyledCardHeader, StyledWrapper } from "./styled";
+
+import notfoundimg from "../../../../assets/notfoundimg.png";
 
 type CategoryCardProps = {
   category: Category;
   onDelete: (data: Category) => void;
+};
+
+const imageOnErrorHandler = (
+  event: React.SyntheticEvent<HTMLImageElement, Event>
+) => {
+  event.currentTarget.src = notfoundimg;
+  event.currentTarget.className = "error";
 };
 
 export const CategoryCard = (props: CategoryCardProps) => {
@@ -22,7 +31,7 @@ export const CategoryCard = (props: CategoryCardProps) => {
   const { _id: id } = category;
 
   return (
-    <>
+    <StyledWrapper>
       <CardHeader
         action={
           <IconButton onClick={() => onDelete(category)}>
@@ -31,12 +40,12 @@ export const CategoryCard = (props: CategoryCardProps) => {
         }
         title={<StyledCardHeader> {category.name}</StyledCardHeader>}
       />
-
       <CardMedia
         component="img"
         height="300"
         image={category.image}
         alt={category.name}
+        onError={imageOnErrorHandler}
       />
 
       <CardContent>
@@ -49,6 +58,6 @@ export const CategoryCard = (props: CategoryCardProps) => {
           <StyledLink to={`/categories/${id}`}>View Recipes</StyledLink>
         </Button>
       </CardActions>
-    </>
+    </StyledWrapper>
   );
 };

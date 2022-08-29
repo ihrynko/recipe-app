@@ -54,6 +54,7 @@ export type Ingredients = {
 };
 
 export type RecipeListFetchState = {
+  // query: string | null;
   refreshIndex: 1 | number;
   data: Recipe[];
   error: string | null;
@@ -83,6 +84,13 @@ export type RecipeCreateState = {
 
 export type RecipeDeleteState = {
   data: Recipe | Record<string, never>;
+  error: string | null;
+  loading: boolean;
+};
+
+export type RecipeSearchState = {
+  query: string | null;
+  data: Recipe[];
   error: string | null;
   loading: boolean;
 };
