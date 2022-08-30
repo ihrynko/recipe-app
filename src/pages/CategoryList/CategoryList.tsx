@@ -121,11 +121,6 @@ const CategoryList = () => {
             onChange={(event) => handleChangeSearch(event.target.value)}
           />
         </StyledBoxWrapper>
-        {categories.length === 0 && (
-          <div>
-            <h1>Not found category</h1>
-          </div>
-        )}
 
         <StyledWrapper>
           {categories.length > 0 && !error && (
