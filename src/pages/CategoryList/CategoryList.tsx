@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { CategoryCard } from "./components/CategoryCard/CategoryCard";
 import { CreateCategoryModal } from "./components/CreateCategoryModal/CreateCategoryModal";
 import { DeleteCategoryModal } from "./components/DeleteCategoryModal/DeleteCategoryModal";
-// import debounce from "lodash.debounce";
+import debounce from "lodash.debounce";
 import { deleteActions } from "./reducers/categoryListDeleteCategory";
 import {
   categoryListAddQuery,
@@ -60,7 +60,7 @@ const CategoryList = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(categoryListFetchStart(search));
+    dispatch(debounce(categoryListFetchStart(search), 500));
   }, [dispatch, search]);
 
   useEffect(() => {
@@ -123,6 +123,7 @@ const CategoryList = () => {
         </StyledBoxWrapper>
 
         <StyledWrapper>
+          {categories.length === 0 && !error && <h1>Not found</h1>}
           {categories.length > 0 && !error && (
             <>
               <Box textAlign="right">
